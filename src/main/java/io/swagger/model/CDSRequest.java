@@ -28,8 +28,8 @@ public class CDSRequest   {
   @JsonProperty("fhirServer")
   private String fhirServer = null;
 
-  @JsonProperty("fhirAuthorization")
-  private FHIRAuthorization fhirAuthorization = null;
+  //@JsonProperty("fhirAuthorization")
+  //private FHIRAuthorization fhirAuthorization = null;
 
   @JsonProperty("context")
   private Object context = null;
@@ -100,26 +100,26 @@ public class CDSRequest   {
     this.fhirServer = fhirServer;
   }
 
-  public CDSRequest fhirAuthorization(FHIRAuthorization fhirAuthorization) {
-    this.fhirAuthorization = fhirAuthorization;
-    return this;
-  }
+  //public CDSRequest fhirAuthorization(FHIRAuthorization fhirAuthorization) {
+  //  this.fhirAuthorization = fhirAuthorization;
+  //  return this;
+  //}
 
   /**
    * Get fhirAuthorization
    * @return fhirAuthorization
   **/
-  @ApiModelProperty(value = "")
+  //@ApiModelProperty(value = "")
 
-  @Valid
+  //@Valid
 
-  public FHIRAuthorization getFhirAuthorization() {
-    return fhirAuthorization;
-  }
+  //public FHIRAuthorization getFhirAuthorization() {
+ //   return fhirAuthorization;
+  //}
 
-  public void setFhirAuthorization(FHIRAuthorization fhirAuthorization) {
-    this.fhirAuthorization = fhirAuthorization;
-  }
+  //public void setFhirAuthorization(FHIRAuthorization fhirAuthorization) {
+  //  this.fhirAuthorization = fhirAuthorization;
+  //}
 
   public CDSRequest context(Object context) {
     this.context = context;
@@ -175,25 +175,22 @@ public class CDSRequest   {
     return Objects.equals(this.hook, cdSRequest.hook) &&
         Objects.equals(this.hookInstance, cdSRequest.hookInstance) &&
         Objects.equals(this.fhirServer, cdSRequest.fhirServer) &&
-        Objects.equals(this.fhirAuthorization, cdSRequest.fhirAuthorization) &&
         Objects.equals(this.context, cdSRequest.context) &&
         Objects.equals(this.prefetch, cdSRequest.prefetch);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(hook, hookInstance, fhirServer, fhirAuthorization, context, prefetch);
+    return Objects.hash(hook, hookInstance, fhirServer, context, prefetch);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CDSRequest {\n");
-    
     sb.append("    hook: ").append(toIndentedString(hook)).append("\n");
     sb.append("    hookInstance: ").append(toIndentedString(hookInstance)).append("\n");
     sb.append("    fhirServer: ").append(toIndentedString(fhirServer)).append("\n");
-    sb.append("    fhirAuthorization: ").append(toIndentedString(fhirAuthorization)).append("\n");
     sb.append("    context: ").append(toIndentedString(context)).append("\n");
     sb.append("    prefetch: ").append(toIndentedString(prefetch)).append("\n");
     sb.append("}");

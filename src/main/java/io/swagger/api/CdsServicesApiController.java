@@ -38,8 +38,8 @@ public class CdsServicesApiController implements CdsServicesApi {
     @ApiOperation(value = "", nickname = "suggestionToPatientAStudy", notes = "Invoke a CDS service offered by this CDS Provider", response = CDSResponse.class, tags = {})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success (includes CDS Cards)", response = CDSResponse.class)})
     // RequestMapping = does this method when POST
-    @RequestMapping(value = "/cds-services/template", produces = {"application/json"}, consumes = {"application/json"}, method = RequestMethod.POST)
-    public ResponseEntity<CDSResponse> cdsTestService(@ApiParam(value = "Body of CDS service request", required = true) @Valid @RequestBody CDSRequest request, @RequestHeader(name = "Authorization") String token, @RequestHeader Map<String, String> headers) {
+    @RequestMapping(value = "/cds-services/template", produces = {"application/json"}, consumes = {"application/json"}, method = RequestMethod.POST) // @RequestHeader(name = "Authorization") String token,
+    public ResponseEntity<CDSResponse> cdsTestService(@ApiParam(value = "Body of CDS service request", required = true) @Valid @RequestBody CDSRequest request, @RequestHeader Map<String, String> headers) {
         logger.info("CDS Hook: template is triggered");
         Object x = request.getPrefetch();
         System.out.println(x);
