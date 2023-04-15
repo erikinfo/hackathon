@@ -10,12 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Map;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2023-01-27T10:43:47.246Z")
 
@@ -33,6 +33,17 @@ public class CdsServicesApiController implements CdsServicesApi {
         this.objectMapper = objectMapper;
         this.request = request;
     }
+
+    @CrossOrigin
+    @ApiOperation(value = "", nickname = "suggestResearchStudies", notes = "Invoke a CDS service offered by this CDS Provider", response = CDSResponse.class, tags = {})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success (includes CDS Cards)", response = CDSResponse.class)})
+    @RequestMapping(value = "/cds-services/template", produces = {"application/json"}, consumes = {"application/json"}, method = RequestMethod.POST)
+    public ResponseEntity<CDSResponse> cdsTestService(@ApiParam(value = "Body of CDS service request", required = true) @Valid @RequestBody CDSRequest request, @RequestHeader(name = "Authorization") String token, @RequestHeader Map<String, String> headers) {
+        logger.info("CDS Hook: template is triggered");
+        //ResponseEntity<CDSResponse> cdsResponseResponseEntity = new ResearchStudyQueryService(token).suggestResearchStudies(request, token);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     public ResponseEntity<CDSServiceInformation> cdsServicesGet() {
         String accept = request.getHeader("Accept");
