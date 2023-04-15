@@ -1,5 +1,4 @@
-{"Content-Type": "application/json"},
-{
+{"Content-Type": "application/json",
   "hookInstance": "88f0dc37-e374-4bbd-8927-124b287ca092",
   "fhirServer": "https://vitu.intern.zvpm.de/fhir",
   "hook": "suggestionToPatientAStudy",
