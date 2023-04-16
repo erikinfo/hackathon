@@ -10,13 +10,27 @@ import java.util.List;
 
 public class InternalEHRFHIRServerRetrieval {
 
+    private Patient patient;
     public static void main(String[] args) throws Exception {
         InternalEHRFHIRServerRetrieval ehr = new InternalEHRFHIRServerRetrieval();
         Patient p = ehr.retrievePatientFromServer();
 
     }
 
+    public Patient getPatientFromFHIR() {
+        return patient;
+    }
 
+    public InternalEHRFHIRServerRetrieval() {
+        retrievePatientFromServer();
+    }
+
+
+    /**
+     * Looks up Patients from an online Server and uses the first Person in the list. The link is:
+     * https://hapi.fhir.org/baseR4/Patient?_format=json&_pretty=true.
+     * @return one Patient.
+     */
     private Patient retrievePatientFromServer() {
         // Create a FHIR context and a RESTful client for the HAPI FHIR Test server
         FhirContext ctx = FhirContext.forR4();
@@ -38,6 +52,7 @@ public class InternalEHRFHIRServerRetrieval {
             IParser parser = ctx.newJsonParser();
             // Serialize it
             String serialized = parser.encodeResourceToString(patient);
+
             System.out.println(serialized);
         } else {
             System.out.println("No resource got back from Test server!");

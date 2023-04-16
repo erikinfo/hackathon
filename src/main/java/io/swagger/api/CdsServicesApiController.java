@@ -1,10 +1,13 @@
 package io.swagger.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.model.CDSResponse;
 import io.swagger.model.CDSServiceInformation;
 import io.swagger.model.CDSRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import org.hl7.fhir.r4.model.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2023-01-27T10:43:47.246Z")
@@ -42,7 +46,21 @@ public class CdsServicesApiController implements CdsServicesApi {
     public ResponseEntity<CDSResponse> cdsTestService(@ApiParam(value = "Body of CDS service request", required = true) @Valid @RequestBody CDSRequest request, @RequestHeader Map<String, String> headers) {
         logger.info("CDS Hook: template is triggered");
         System.out.println(request.toString());
+        LinkedHashMap<String, Object> jsonObject = new LinkedHashMap<>();
+        jsonObject = (LinkedHashMap<String, Object>) request.getPrefetch();
+        System.out.println(jsonObject);
+        LinkedHashMap<String, Object> bs = (LinkedHashMap<String, Object>) jsonObject.get("studies");
+        System.out.println(bs.get("resourceType"));
+
+
+        //InternalEHRFHIRServerRetrieval iehr = new InternalEHRFHIRServerRetrieval();
+        //Patient patient = iehr.getPatientFromFHIR();
+        //patient.getBirthDate();
+
+        // INSERT: Our basic logic that for example when a Patient is old then a specific research study is good (must not be perfect at this point)
+
         //ResponseEntity<CDSResponse> cdsResponseResponseEntity = new ResearchStudyQueryService(token).suggestResearchStudies(request, token);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
