@@ -8,6 +8,7 @@ package io.swagger.api;
 import io.swagger.annotations.*;
 import io.swagger.model.CDSRequest;
 import io.swagger.model.CDSResponse;
+import io.swagger.model.CDSServiceInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -26,16 +27,24 @@ import java.util.Map;
 public interface CdsServicesApi {
     Logger logger = LoggerFactory.getLogger(CdsServicesApi.class);
 
+
     /**
-     * Interface function for catching incoming calls.
-     * WARNING: This is a example interface function for the orientation to create own version of rest interfaces.
-     *          Pls delete after you created your own rest interface.
-     *
-     * @param request The request body itself
-     * @param token The authentication token for hapi fhir oder ongoing request on a remote fhir server.
-     * @param headers Header information about the request itself.
-     * @return A created CDSResponse object for the requester.
+     * Show all CDS services.
+     * @return
      */
+    public ResponseEntity<CDSServiceInformation> cdsServicesGet();
+
+
+        /**
+         * Interface function for catching incoming calls.
+         * WARNING: This is a example interface function for the orientation to create own version of rest interfaces.
+         *          Pls delete after you created your own rest interface.
+         *
+         * @param request The request body itself
+         * @param token The authentication token for hapi fhir oder ongoing request on a remote fhir server.
+         * @param headers Header information about the request itself.
+         * @return A created CDSResponse object for the requester.
+         */
     @CrossOrigin
     @ApiOperation(value = "", nickname = "suggestionToPatientAStudy", notes = "Invoke a CDS service offered by this CDS Provider", response = CDSResponse.class, tags = {})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success (includes CDS Cards)", response = CDSResponse.class)})

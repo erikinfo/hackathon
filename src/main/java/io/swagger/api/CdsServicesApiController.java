@@ -7,6 +7,7 @@ import io.swagger.model.CDSServiceInformation;
 import io.swagger.model.CDSRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.model.Card;
 import org.hl7.fhir.r4.model.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2023-01-27T10:43:47.246Z")
@@ -58,6 +61,16 @@ public class CdsServicesApiController implements CdsServicesApi {
         //patient.getBirthDate();
 
         // INSERT: Our basic logic that for example when a Patient is old then a specific research study is good (must not be perfect at this point)
+
+        Card c = new Card();
+        c.setSummary("Example Card");
+        // ...
+
+        CDSResponse cdsR = new CDSResponse();
+        List<Card> l = new ArrayList<Card>();
+        l.add(c);
+        cdsR.setCards(l);
+
 
         //ResponseEntity<CDSResponse> cdsResponseResponseEntity = new ResearchStudyQueryService(token).suggestResearchStudies(request, token);
 
