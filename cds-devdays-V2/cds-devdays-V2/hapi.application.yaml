@@ -1,7 +1,7 @@
 spring:
   datasource:
     url: 'jdbc:postgresql://db:5432/hapi'
-    username: admin2
+    username: admin
     password: admin
     driverClassName: org.postgresql.Driver
   jpa:
