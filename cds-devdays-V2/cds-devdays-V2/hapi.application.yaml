@@ -15,3 +15,6 @@ hapi:
     ### This is the FHIR version. Choose between, DSTU2, DSTU3, R4 or R5
     fhir_version: R4
     cql_enabled: true
+    subscription:
+      resthook_enabled: true
+      websocket_enabled: false
