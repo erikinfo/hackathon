@@ -5,11 +5,21 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
-import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r5.model.ResearchStudy;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.client.RestTemplate;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
+
+import okhttp3.*;
 
 public class LeoDerBoss {
 
@@ -39,6 +49,31 @@ public class LeoDerBoss {
 
             // TO DO: Prints the Fevir Link along with some other info 
             System.out.println(researchstudy.getRecruitment());
+
+
+            // Create an instance of RestTemplate
+            RestTemplate restTemplate = new RestTemplate();
+
+            // Create headers
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+        
+            // Create request body
+            MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+            map.add("functionid", "getresourcejson"); // Don't change!
+            map.add("resourceid", "12345"); // Input the ID you get from the Recruitment Object from the Research Study
+            map.add("apiToken", "████████████"); // Your code 
+        
+            // Build the request
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+        
+            // Make the request
+            ResponseEntity<String> response = restTemplate.exchange("https://api.fevir.net", HttpMethod.GET, request, String.class);
+
+            // Print the response
+            System.out.println(response.getBody());
+
+            
 
 
         } catch (IOException e) {
