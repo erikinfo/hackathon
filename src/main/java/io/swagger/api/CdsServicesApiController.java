@@ -8,7 +8,6 @@ import io.swagger.model.CDSRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import io.swagger.model.Card;
-import org.hl7.fhir.r4.model.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -41,11 +40,14 @@ public class CdsServicesApiController implements CdsServicesApi {
         this.request = request;
     }
 
+
+    
+
     @CrossOrigin // cross-domain-communication
     @ApiOperation(value = "", nickname = "suggestionToPatientAStudy", notes = "Invoke a CDS service offered by this CDS Provider", response = CDSResponse.class, tags = {})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success (includes CDS Cards)", response = CDSResponse.class)})
     // RequestMapping = does this method when POST
-    @RequestMapping(value = "/cds-services/template", produces = {"application/json"}, consumes = {"application/json"}, method = RequestMethod.POST) // @RequestHeader(name = "Authorization") String token,
+    @RequestMapping(value = "/cds-services/trials", produces = {"application/json"}, consumes = {"application/json"}, method = RequestMethod.POST) // @RequestHeader(name = "Authorization") String token,
     public ResponseEntity<CDSResponse> cdsTestService(@ApiParam(value = "Body of CDS service request", required = true) @Valid @RequestBody CDSRequest request, @RequestHeader Map<String, String> headers) {
         logger.info("CDS Hook: template is triggered");
         System.out.println(request.toString());

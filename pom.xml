@@ -16,7 +16,7 @@
 	<packaging>war</packaging>
 	<properties>
 		<java.version>17</java.version>
-		<fhir.version>6.2.5</fhir.version>
+		<fhir.version>6.4.4</fhir.version>
 		<springfox-version>3.0.0</springfox-version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
@@ -116,10 +116,10 @@
 			<version>${fhir.version}</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/ca.uhn.hapi.fhir/hapi-fhir-structures-r4 -->
+		<!-- https://mvnrepository.com/artifact/ca.uhn.hapi.fhir/hapi-fhir-structures-r5 -->
 		<dependency>
 			<groupId>ca.uhn.hapi.fhir</groupId>
-			<artifactId>hapi-fhir-structures-r4</artifactId>
+			<artifactId>hapi-fhir-structures-r5</artifactId>
 			<version>${fhir.version}</version>
 		</dependency>
 

@@ -10,9 +10,9 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.Resource;
-import org.hl7.fhir.r4.model.Subscription;
+import org.hl7.fhir.r5.model.Bundle;
+import org.hl7.fhir.r5.model.Resource;
+import org.hl7.fhir.r5.model.Subscription;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +32,14 @@ public class FHIRService {
     @Value("${fhir.server.url}")
     private String fhirServerUrl;
 
+    private final IGenericClient client;
+    private final FhirContext ctx;
+
+    public FHIRService(IGenericClient ige, FhirContext ctx) {
+        this.client = ige;
+        this.ctx = ctx;
+    }
+
     private RestTemplate restTemplate = new RestTemplate();
 
     public Subscription getSubscription(String id) {
@@ -40,10 +48,6 @@ public class FHIRService {
 
     public void pushFhirResources(String directoryPath) {
 
-        // Initialize the FHIR context
-        FhirContext ctx = FhirContext.forR4();
-        // Create a client
-        IGenericClient client = ctx.newRestfulGenericClient(fhirServerUrl);
 
         try {
             File folder = new File(directoryPath);
