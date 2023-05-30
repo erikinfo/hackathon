@@ -28,7 +28,7 @@ public class CdsServiceTemplateApplication {
     @Bean
     public ApplicationRunner applicationRunner() {
         return args -> {
-            fhirService.pushFhirResources("/home/erik/Downloads/test-ig");
+            //fhirService.pushFhirResources("/home/erik/Downloads/test-ig");
         };
     }
 

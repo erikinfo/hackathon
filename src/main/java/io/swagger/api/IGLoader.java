@@ -10,10 +10,11 @@ import org.apache.commons.io.FileUtils;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Resource;
-
+import org.hl7.fhir.r5.model.SubscriptionTopic;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.server.exceptions.BaseServerResponseException;
 
 
 public class IGLoader {
@@ -26,8 +27,36 @@ public class IGLoader {
 
         IGLoader ig = new IGLoader();
     
-        ig.pushFhirResources("/home/erik/Downloads/test-ig2");
+        //ig.pushFhirResources("/home/erik/Downloads/test-ig2");
+
+        ig.searchSubscriptionTopics();
         
+    }
+
+    public void searchSubscriptionTopics() {
+        
+        FhirContext ctx = FhirContext.forR5();
+        IGenericClient client = ctx.newRestfulGenericClient("http://localhost:8080/fhir/");
+        // Search for all Subscription resources
+        org.hl7.fhir.r5.model.Bundle response = null;
+        try {
+            response = client.search()
+                    .forResource(SubscriptionTopic.class)
+                    .returnBundle(org.hl7.fhir.r5.model.Bundle.class)
+                    .execute();
+        } catch (BaseServerResponseException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+
+        // Print the results
+        if (response != null) {
+            for (org.hl7.fhir.r5.model.Bundle.BundleEntryComponent entry : response.getEntry()) {
+                SubscriptionTopic subscription = (SubscriptionTopic) entry.getResource();
+                System.out.println(subscription.toString());
+                System.out.println(subscription.getId());
+            }
+        }
+
     }
 
 

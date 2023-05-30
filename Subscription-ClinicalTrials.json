@@ -1,0 +1,36 @@
+{
+    "resourceType": "Subscription",
+    "id": "clinicaltrials-germany",
+    "text" : {
+    	"status" : "generated",
+    	"div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\">[Put rendering here]</div>"
+    },
+    "status": "active",
+    "topic": "SubscriptionTopic/clinicaltrials-germany",
+    "end" : "2024-08-07T11:15:18Z",
+    "reason": "Monitor new oncologic clinical trials in Germany",
+    "contact" : [{
+    "system" : "email",
+    "value" : "erikadlermail@gmail.com",
+    "use" : "home"
+    }],
+    "filterBy": [
+        {
+            "filterParameter": "region",
+            "value": "DE"
+        },
+        {
+            "filterParameter": "condition",
+            "value": "Valueset/OncologyConditions"
+        }
+    ],
+    "channelType" : {
+    "code" : "rest-hook"
+  },
+  "endpoint" : "localhost:8082/cds-services/trials",
+  "heartbeatPeriod": 60,
+  "timeout": 5,
+  "contentType": "application/fhir+json",
+  "maxCount": 100
+}
+
