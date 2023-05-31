@@ -1,0 +1,31 @@
+{
+  "resourceType" : "Location",
+  "id" : "SLK",
+  "meta" : {
+    "profile" : ["http://molit.eu/fhir/trials/StructureDefinition/study-site-location"]
+  },
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Location</b><a name=\"SLK\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Location &quot;SLK&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-study-site-location.html\">Study Site Location</a></p></div><p><b>status</b>: active</p><p><b>name</b>: SLK Kliniken Heilbronn</p><p><b>type</b>: Hospitals; General Acute Care Hospital <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-RoleCode.html\">RoleCode</a>#GACH)</span></p><p><b>address</b>: Am Gesundbrunnen 20-26 heilbronn 74078 DE </p><h3>Positions</h3><table class=\"grid\"><tr><td>-</td><td><b>Longitude</b></td><td><b>Latitude</b></td></tr><tr><td>*</td><td>49.153057</td><td>9.190194</td></tr></table></div>"
+  },
+  "status" : "active",
+  "mode": "instance",
+  "name" : "SLK Kliniken Heilbronn",
+  "type" : [{
+    "coding" : [{
+      "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+      "code" : "GACH",
+      "display" : "Hospitals; General Acute Care Hospital"
+    }]
+  }],
+  "address" : {
+    "line" : ["Am Gesundbrunnen 20-26"],
+    "city" : "heilbronn",
+    "postalCode" : "74078",
+    "country" : "DE"
+  },
+  "position" : {
+    "longitude" : 49.153057,
+    "latitude" : 9.190194
+  }
+}

@@ -19,7 +19,6 @@ import org.hl7.fhir.r5.model.SubscriptionTopic;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.server.exceptions.BaseServerResponseException;
 import ca.uhn.fhir.util.BundleUtil;
 
@@ -31,8 +30,6 @@ import org.hl7.fhir.r5.model.Resource;
 import org.hl7.fhir.r5.model.ResourceType;
 import org.hl7.fhir.r5.model.Subscription;
 
-import ca.uhn.fhir.rest.annotation.RequiredParam;
-import ca.uhn.fhir.rest.annotation.Search;
 import ca.uhn.fhir.rest.api.Constants;
 import ca.uhn.fhir.rest.api.EncodingEnum;
 
@@ -60,7 +57,7 @@ public class SubscriptionTest {
     }
 
     public void sendCDSHook() {
-        
+
     }
 
 

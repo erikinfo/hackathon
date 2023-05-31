@@ -1,15 +1,11 @@
 package io.swagger.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.model.CDSResponse;
 import io.swagger.model.CDSServiceInformation;
-import io.swagger.model.CDSRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import io.swagger.model.Card;
 
-import org.hl7.fhir.r5.model.ResearchStudy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -21,7 +17,6 @@ import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
