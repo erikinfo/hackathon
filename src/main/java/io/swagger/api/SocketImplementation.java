@@ -78,6 +78,7 @@ public class SocketImplementation {
 		} else if (myGotBound && theMsg.startsWith("add " + mySubsId + "\n")) {
 			String text = theMsg.substring(("add " + mySubsId + "\n").length());
 			ourLog.info("text: " + text);
+			System.out.println(text);
 		} else if (theMsg.startsWith("ping ")) {
 			myPingCount++;
 		} else {

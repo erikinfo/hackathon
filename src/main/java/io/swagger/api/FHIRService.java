@@ -46,6 +46,10 @@ public class FHIRService {
         return restTemplate.getForObject(fhirServerUrl + "Subscription/" + id, Subscription.class);
     }
 
+
+    
+
+
     public void pushFhirResources(String directoryPath) {
 
 

@@ -28,6 +28,7 @@ public class CdsServiceTemplateApplication {
     @Bean
     public ApplicationRunner applicationRunner() {
         return args -> {
+            //fhirService.intermediaryHandler();
             //fhirService.pushFhirResources("/home/erik/Downloads/test-ig");
         };
     }

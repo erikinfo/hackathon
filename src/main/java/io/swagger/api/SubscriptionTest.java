@@ -6,52 +6,162 @@ import java.io.File;
 import java.net.URI;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
+import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
-import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.Resource;
 import org.hl7.fhir.r5.model.SubscriptionTopic;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.server.exceptions.BaseServerResponseException;
+import ca.uhn.fhir.util.BundleUtil;
+
+import org.hl7.fhir.r5.model.Bundle;
 import org.hl7.fhir.r5.model.Enumerations;
 import org.hl7.fhir.r5.model.Observation;
+import org.hl7.fhir.r5.model.ResearchStudy;
+import org.hl7.fhir.r5.model.Resource;
+import org.hl7.fhir.r5.model.ResourceType;
 import org.hl7.fhir.r5.model.Subscription;
+
+import ca.uhn.fhir.rest.annotation.RequiredParam;
+import ca.uhn.fhir.rest.annotation.Search;
+import ca.uhn.fhir.rest.api.Constants;
 import ca.uhn.fhir.rest.api.EncodingEnum;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
 
-public class IGLoader {
+public class SubscriptionTest {
 
-    private static final org.slf4j.Logger ourLog = org.slf4j.LoggerFactory.getLogger(IGLoader.class);
+    private static final org.slf4j.Logger ourLog = org.slf4j.LoggerFactory.getLogger(SubscriptionTest.class);
 
     public static void main(String[] args) {
 
-        // ResearchStudy rs =;
 
-        // rs.getEnrollment()
-
-        IGLoader ig = new IGLoader();
+        SubscriptionTest ig = new SubscriptionTest();
     
-        //ig.pushFhirResources("/home/erik/Downloads/test-ig2");
-
         try {
-            ig.makeTestOnWebSocket();
+            ig.intermediaryHandler();
+
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
     }
+
+
+    public ResearchStudy getLatestResearchStudyByDate(IGenericClient client) {
+        // Use the client to search for ResearchStudy resources sorted by date
+        Bundle response = client.search()
+            .forResource(ResearchStudy.class)
+            .sort().descending(Constants.PARAM_LASTUPDATED)
+            .returnBundle(Bundle.class)
+            .execute();
+    
+        // Check if there are any entries in the response
+        if (!response.getEntry().isEmpty() && response.getEntry().get(0).getResource().getResourceType() == ResourceType.ResearchStudy) {
+            // Return the first ResearchStudy in the response
+            return (ResearchStudy) response.getEntry().get(0).getResource();
+        }
+    
+        // If there are no entries, return null
+        return null;
+    }
+
+
+    public void intermediaryHandler() throws Exception {
+
+        FhirContext ctx = FhirContext.forR5();
+        IGenericClient client = ctx.newRestfulGenericClient("http://localhost:8888/fhir/");
+        ArrayList<String> myMessages = new ArrayList<String>();
+        myMessages.add("ping 203");
+
+        // Extract ID after 'ping '
+        String pingId = null;
+        for (String item : myMessages) {
+            if (item.startsWith("ping ")) {
+                pingId = item.substring(5);
+                break;
+            }
+
+        }
+
+        String topicID = null;
+        if (pingId != null) {
+            // Search for the Subscription
+            Subscription subscription = client.read()
+                                             .resource(Subscription.class)
+                                             .withId(pingId)
+                                             .execute();
+        
+            // Get the resource type
+            System.out.println(subscription.getTopic());
+            topicID = subscription.getTopic();
+        } else {
+            System.out.println("No ping ID found in the list.");
+        }
+
+        if (topicID != null) {
+
+            String searchUrl = "SubscriptionTopic?url="+topicID;
+            // Search for the Subscription
+            Bundle bundle = client.search()
+                                             .forResource(SubscriptionTopic.class)
+                                             .where(SubscriptionTopic.URL.matches().value(topicID))
+                                             .returnBundle(Bundle.class)
+                                             .execute();
+
+            // Convert the Bundle entries into a list of ResearchStudy
+            List<IBaseResource> results = new ArrayList<>();
+            results.addAll(BundleUtil.toListOfResources(ctx, bundle));
+
+            // Load the subsequent pages
+            while (bundle.getLink(IBaseBundle.LINK_NEXT) != null) {
+                bundle = client
+                .loadPage()
+                .next(bundle)
+                .execute();
+                results.addAll(BundleUtil.toListOfResources(ctx, bundle));
+            }
+ 
+            System.out.println("Loaded " + results.size() + " Topics!");
+
+            if (results.size() > 0) {
+
+                SubscriptionTopic st = (SubscriptionTopic) results.get(0);
+
+                System.out.println(st.getResourceTrigger().get(0).getResource());
+
+                if (st.getResourceTrigger().get(0).getResource().equals("http://hl7.org/fhir/StructureDefinition/ResearchStudy")) {
+                    ResearchStudy rs = getLatestResearchStudyByDate(client);
+
+                    System.out.println(rs.getId());
+                } else {
+                    throw new NotFoundException(404, "No ResearchStudy found in Topic!");
+                }
+
+            } else {
+                throw new NotFoundException(404, "No SubscriptionTopic found!");
+            }
+        
+            //System.out.println(results.getResourceTrigger());
+        } else {
+            System.out.println("No ping ID found in the list.");
+        }
+    }
+
 
     public void makeTestOnWebSocket() throws Exception {
 
@@ -61,7 +171,7 @@ public class IGLoader {
         FhirContext ctx = FhirContext.forR5();
         IGenericClient client = ctx.newRestfulGenericClient("http://localhost:8888/fhir/");
         /*
-        * Attach websocket
+        * Attach websocket WITH CORRECT CRITERIA
         */
 
         String endpoint = "ws://localhost:8888/websocket";
@@ -80,7 +190,7 @@ public class IGLoader {
 
         ourLog.info("Connected to WS: {}", session.isOpen());
 
-        TimeUnit.SECONDS.sleep(15);
+        //TimeUnit.SECONDS.sleep(15);
 
 
         /*
@@ -96,6 +206,13 @@ public class IGLoader {
         * Ensure that we receive a ping on the websocket
         */
         System.out.println("Ping count: " + mySocketImplementation.myPingCount);
+
+        System.out.println(mySocketImplementation.getMessages());
+
+
+        Subscription subscription = new Subscription();
+
+        subscription.getResourceType();
 
 
     }
