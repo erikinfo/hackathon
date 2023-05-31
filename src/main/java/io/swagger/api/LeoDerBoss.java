@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
+import org.hl7.fhir.r5.model.Group;
 import org.hl7.fhir.r5.model.ResearchStudy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
@@ -27,6 +28,16 @@ public class LeoDerBoss {
         FhirContext ctx = FhirContext.forR5();
         String directoryPath = "ResearchStudy.json";
         File file = new File(directoryPath);
+
+        //String directoryPath2 = "resources/cds-requests/Group-TrialInclusionGroupExample.json"
+        //Group group = null; 
+        //String input = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+
+        // Instantiate a new parser
+        //IParser parser = ctx.newJsonParser();
+
+        // Parse it
+        //group = parser.parseResource(Group.class, input);
 
         ResearchStudy researchstudy = null;
         String input;
