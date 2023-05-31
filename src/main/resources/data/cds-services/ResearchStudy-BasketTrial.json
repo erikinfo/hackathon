@@ -1,0 +1,118 @@
+{
+  "resourceType" : "ResearchStudy",
+  "id" : "Basket-Trial-Example",
+  "version": "1.0",
+  "identifier" : [{
+    "system" : "http://clinicaltrials.gov",
+    "value" : "NCT04589845"
+  },
+  {
+    "system" : "http://molit.eu/fhir/sid/trials",
+    "value" : "12345"
+  }],
+  "name": "TAPISTRY",
+  "title" : "Tumor-Agnostic Precision Immuno-Oncology and Somatic Targeting Rational for You (TAPISTRY) Platform Study",
+  "status" : "active",
+  "progressStatus": {
+    "code" : "recruiting",
+    "system" : "https://clinicaltrials.gov/ct2/about-studies/glossary"
+  },
+  "primaryPurposeType": [{
+      "coding": [{
+	"system": "http://hl7.org/fhir/research-study-prim-purp-type",
+	"code": "treatment",
+        "display": "Behandlung"
+       }]
+   }],
+  "phase": [{
+      "coding": [{
+	"system": "http://hl7.org/fhir/research-study-phase",
+	"code": "phase-2",
+        "display": "Phase 2"
+       }]
+   }],
+  "studyDesign": [{
+      "coding": [{
+	"system": "http://hl7.org/fhir/study-design",
+	"code": "SEVCO:01001",
+        "display": "Interventional"
+       }]
+   }],
+  "protocol": "PlanDefinition/tapistry23",
+  "focus" : [{
+	  "concept" : {
+	    "coding" : [{
+	      "system" : "http://www.whocc.no/atc",
+	      "code" : "A01AB07",
+	      "display" : "oxyquinoline"
+	    }]
+	  }
+	},
+	{
+	  "concept" : {
+	    "coding" : [{
+	      "system" : "http://www.whocc.no/atc",
+	      "code" : "L01EX14",
+	      "display" : "entrectinib"
+	    }]
+	  }
+	},
+	{
+	  "concept" : {
+	    "coding" : [{
+	      "system" : "http://www.whocc.no/atc",
+	      "code" : "L01ED03",
+	      "display" : "alectinib"
+	    }]
+	  }
+	},
+	{
+	  "concept" : {
+	    "coding" : [{
+	      "system" : "http://www.whocc.no/atc",
+	      "code" : "L01XC32",
+	      "display" : "atezolizumab"
+	    }]
+	  }
+	},
+	{
+	  "concept" : {
+	    "coding" : [{
+	      "system" : "http://www.whocc.no/atc",
+	      "code" : "L01XC14",
+	      "display" : "trastuzumab emtansine"
+	    }]
+	  }
+	}],
+  "contact" : [{
+    "name" : "Reference Study ID Number: BO41932 https://forpatients.roche.com/",
+    "telecom" : [{
+      "system" : "phone",
+      "value" : "888-662-6728 (U.S. and Canada)"
+    },
+    {
+      "system" : "email",
+      "value" : "Global-Roche-Genentech-Trials@gene.com"
+    }]
+  },
+  {
+    "name" : "Trial-Centre 78",
+    "telecom" : [{
+      "system" : "phone",
+      "value" : "+46 131 568789456"
+    },
+    {
+      "system" : "email",
+      "value" : "trial-administration@center.com"
+    }]
+  }],
+  "description" : "TAPISTRY is a Phase II, global, multicenter, open-label, multi-cohort study designed to evaluate the safety and efficacy of targeted therapies or immunotherapy as single agents or in rational, specified combinations in participants with unresectable, locally advanced or metastatic solid tumors determined to harbor specific oncogenic genomic alterations or who are tumor mutational burden (TMB)-high as identified by a validated next-generation sequencing (NGS) assay.",
+  "recruitment" : {
+    "targetNumber": 770,
+    "eligibility": "Group/TrialInclusionGroupExample" 
+  },
+  "location" : [{
+    "reference" : "Location/SLK"
+  }]
+}
+

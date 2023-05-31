@@ -19,20 +19,20 @@ import javax.validation.constraints.*;
 
 
 public class CDSRequest   {
-  //@JsonProperty("hook")
-  //private String hook = null;
+  @JsonProperty("hook")
+  private String hook = null;
 
-  //@JsonProperty("hookInstance")
-  //private UUID hookInstance = null;
+  @JsonProperty("hookInstance")
+  private UUID hookInstance = null;
 
-  //@JsonProperty("fhirServer")
- // private String fhirServer = null;
+  @JsonProperty("fhirServer")
+  private String fhirServer = null;
 
   //@JsonProperty("fhirAuthorization")
   //private FHIRAuthorization fhirAuthorization = null;
 
-  //@JsonProperty("context")
- // private Object context = null;
+  @JsonProperty("context")
+  private Object context = null;
 
   @JsonProperty("prefetch")
   private Object prefetch = null;

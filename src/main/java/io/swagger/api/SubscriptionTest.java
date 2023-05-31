@@ -1,7 +1,5 @@
 package io.swagger.api;
 
-
-
 import java.io.File;
 import java.net.URI;
 import java.io.IOException;
@@ -58,6 +56,10 @@ public class SubscriptionTest {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
+    }
+
+    public void sendCDSHook() {
         
     }
 
@@ -146,7 +148,6 @@ public class SubscriptionTest {
 
                 if (st.getResourceTrigger().get(0).getResource().equals("http://hl7.org/fhir/StructureDefinition/ResearchStudy")) {
                     ResearchStudy rs = getLatestResearchStudyByDate(client);
-
                     System.out.println(rs.getId());
                 } else {
                     throw new NotFoundException(404, "No ResearchStudy found in Topic!");

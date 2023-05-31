@@ -47,8 +47,6 @@ public class FHIRService {
     }
 
 
-    
-
 
     public void pushFhirResources(String directoryPath) {
 

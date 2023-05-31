@@ -1,0 +1,52 @@
+{
+  "resourceType" : "ResearchStudy",
+  "id" : "Example-Trial",
+  "version": "0.0.1",
+  "status": "draft",
+  "name": "ramona2",
+  "title": "RAMONA II - Die nächste Studie",
+  "identifier" : [
+    {
+      "system" : "http://clinicaltrials.gov",
+      "value" : "NCT04360330"
+    },
+    {
+      "system" : "http://www.drks.de",
+      "value" : "DRKS00010757"
+    },
+    {
+      "system" : "http://molit.eu/fhir/sid/trials",
+      "value" : "123456789"
+    }
+  ], 
+  "date": "2023-05-26T00:17:51+00:00",
+  "region": [{
+      "coding": [{
+	"system": "urn:iso:std:iso:3166",
+	"code": "DE",
+        "display": "Deutschland"
+       }]
+   }],
+   "focus" : [{
+    "coding" : [{
+      "system" : "http://www.whocc.no/atc",
+      "code" : "A01AB07",
+      "display" : "oxyquinoline"
+    }]
+  }], 
+  "condition" : [{
+    "coding" : [{
+      "system" : "http://fhir.de/CodeSystem/dimdi/icd-10-gm",
+      "code" : "C25",
+      "display" : "Bösartige Neubildung des Pankreas"
+    }]
+  }], 
+  "description" : "Diese Studie untersucht die Zusammenhänge der bösartigen Pankreas Neubildungen in Verbindung mit Adenokarzinomen.",
+  "site" : [{
+    "reference" : "Location/SLK"
+  }],
+  "recruitment" : {
+    "targetNumber" : "Group/TrialInclusionGroupExample",
+    "actualNumber" : "Group/TrialInclusionGroupExample"
+  }
+}

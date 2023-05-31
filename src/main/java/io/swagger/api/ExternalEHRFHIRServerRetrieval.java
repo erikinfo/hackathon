@@ -8,11 +8,11 @@ import org.hl7.fhir.r4.model.Patient;
 
 import java.util.List;
 
-public class InternalEHRFHIRServerRetrieval {
+public class ExternalEHRFHIRServerRetrieval {
 
     private Patient patient;
     public static void main(String[] args) throws Exception {
-        InternalEHRFHIRServerRetrieval ehr = new InternalEHRFHIRServerRetrieval();
+        ExternalEHRFHIRServerRetrieval ehr = new ExternalEHRFHIRServerRetrieval();
         Patient p = ehr.retrievePatientFromServer();
 
     }
@@ -21,7 +21,7 @@ public class InternalEHRFHIRServerRetrieval {
         return patient;
     }
 
-    public InternalEHRFHIRServerRetrieval() {
+    public ExternalEHRFHIRServerRetrieval() {
         retrievePatientFromServer();
     }
 
