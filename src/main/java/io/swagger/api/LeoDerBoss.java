@@ -19,8 +19,6 @@ import org.springframework.util.MultiValueMap;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
 
-import okhttp3.*;
-
 public class LeoDerBoss {
 
 

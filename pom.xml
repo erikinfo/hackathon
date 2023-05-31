@@ -24,6 +24,21 @@
 		<slf4j.version>1.7.30</slf4j.version>
 	</properties>
 	<dependencies>
+
+		<!-- Jetty WebSocket API -->
+		<dependency>
+			<groupId>org.eclipse.jetty.websocket</groupId>
+			<artifactId>javax-websocket-server-impl</artifactId>
+			<version>9.4.49.v20220914</version>
+		</dependency>
+
+		<!-- Jetty WebSocket Client API -->
+		<dependency>
+			<groupId>org.eclipse.jetty.websocket</groupId>
+			<artifactId>websocket-client</artifactId>
+			<version>9.4.49.v20220914</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

@@ -53,6 +53,8 @@ public class CdsServicesApiController implements CdsServicesApi {
         logger.info("CDS Hook: template is triggered");                                                     // 
         logger.info("CDS Hook: request is " + request.toString());
 
+        // Look at presentation and build Bundle 
+
         System.out.println(request.toString());
       
 
