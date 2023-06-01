@@ -1,4 +1,4 @@
-library test
+library FirstExample
 
 using FHIR version '4.0.1'
 
