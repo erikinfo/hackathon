@@ -1,0 +1,30 @@
+{
+  "resourceType": "Patient",
+  "id": "example-patient",
+  "gender": "male",
+  "birthDate": "1980-01-01",
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/research-study-inclusion-criterion",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://example.com/codes",
+            "code": "C25696"
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/research-study-inclusion-criterion",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://example.com/codes",
+            "code": "C39434"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -29,7 +29,7 @@ public class LeoDerBoss {
         //String directoryPath = "/other examples/ResearchStudy.json";
         //File file = new File(directoryPath);
 
-        String directoryPath2 = "resources/cds-requests/Group-TrialInclusionGroupExample.json";
+        String directoryPath2 = "./Group-TrialInclusionGroupExample.json";
         File file = new File(directoryPath2);
         Group group = null;
         String input1;
