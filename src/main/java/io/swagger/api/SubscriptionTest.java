@@ -9,6 +9,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
+import org.hl7.fhir.dstu3.model.codesystems.PublicationStatus;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -41,13 +42,20 @@ public class SubscriptionTest {
 
     private static final org.slf4j.Logger ourLog = org.slf4j.LoggerFactory.getLogger(SubscriptionTest.class);
 
+    public static final IGenericClient client = FhirContext.forR5().newRestfulGenericClient("http://localhost:8888/fhir/");
+    public static final FhirContext ctx = FhirContext.forR5();
+
+    public static final String SUBSCRIPTION_TOPIC_TEST_URL = "http://molit.eu/fhir/SubscriptionTopic/clinicaltrials-germany-test";
+
+    public static final String endpoint = "ws://localhost:8888/websocket";
+
     public static void main(String[] args) {
 
 
         SubscriptionTest ig = new SubscriptionTest();
     
         try {
-            ig.intermediaryHandler();
+            ig.makeTestOnWebSocket("261");
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -57,7 +65,7 @@ public class SubscriptionTest {
     }
 
 
-    public ResearchStudy getLatestResearchStudyByDate(IGenericClient client) {
+    public ResearchStudy getLatestResearchStudyByDate() {
         // Use the client to search for ResearchStudy resources sorted by date
         Bundle response = client.search()
             .forResource(ResearchStudy.class)
@@ -76,12 +84,10 @@ public class SubscriptionTest {
     }
 
 
-    public void intermediaryHandler() throws Exception {
+    public void intermediaryHandler(String subscription_id) throws Exception {
 
-        FhirContext ctx = FhirContext.forR5();
-        IGenericClient client = ctx.newRestfulGenericClient("http://localhost:8888/fhir/");
         ArrayList<String> myMessages = new ArrayList<String>();
-        myMessages.add("ping 203");
+        myMessages.add("ping " + subscription_id);
 
         // Extract ID after 'ping '
         String pingId = null;
@@ -140,8 +146,10 @@ public class SubscriptionTest {
                 System.out.println(st.getResourceTrigger().get(0).getResource());
 
                 if (st.getResourceTrigger().get(0).getResource().equals("http://hl7.org/fhir/StructureDefinition/ResearchStudy")) {
-                    ResearchStudy rs = getLatestResearchStudyByDate(client);
+                    ResearchStudy rs = getLatestResearchStudyByDate();
                     System.out.println(rs.getId());
+                    CDSHooks cds = new CDSHooks();
+                    cds.sendRequest(rs);
                 } else {
                     throw new NotFoundException(404, "No ResearchStudy found in Topic!");
                 }
@@ -157,22 +165,13 @@ public class SubscriptionTest {
     }
 
 
-    public void makeTestOnWebSocket() throws Exception {
+    public void makeTestOnWebSocket(String subscription_id) throws Exception {
 
-        String SUBSCRIPTION_TOPIC_TEST_URL = "http://molit.eu/fhir/SubscriptionTopic/clinicaltrials-germany";
-
-
-        FhirContext ctx = FhirContext.forR5();
-        IGenericClient client = ctx.newRestfulGenericClient("http://localhost:8888/fhir/");
         /*
         * Attach websocket WITH CORRECT CRITERIA
         */
-
-        String endpoint = "ws://localhost:8888/websocket";
-
-    
         WebSocketClient myWebSocketClient = new WebSocketClient();
-        SocketImplementation mySocketImplementation = new SocketImplementation("203", EncodingEnum.JSON);
+        SocketImplementation mySocketImplementation = new SocketImplementation(subscription_id, EncodingEnum.JSON);
 
         myWebSocketClient.start();
 
@@ -180,19 +179,17 @@ public class SubscriptionTest {
         ClientUpgradeRequest request = new ClientUpgradeRequest();
         ourLog.info("Connecting to : {}", echoUri);
         Future<Session> connection = myWebSocketClient.connect(mySocketImplementation, echoUri, request);
-        Session session = connection.get(2, TimeUnit.SECONDS);
+        Session session = connection.get(); // 2, TimeUnit.SECONDS
 
         ourLog.info("Connected to WS: {}", session.isOpen());
 
         //TimeUnit.SECONDS.sleep(15);
-
-
         /*
         * Create a matching resource
         */
-        Observation obs = new Observation();
-        obs.setStatus(Enumerations.ObservationStatus.FINAL);
-        client.create().resource(obs).execute();
+        //ResearchStudy rs = new ResearchStudy();
+        //rs.setStatus(Enumerations.PublicationStatus.ACTIVE);
+        //client.create().resource(rs).execute();
 
         TimeUnit.SECONDS.sleep(12);
 
@@ -203,22 +200,17 @@ public class SubscriptionTest {
 
         System.out.println(mySocketImplementation.getMessages());
 
-
-        Subscription subscription = new Subscription();
-
-        subscription.getResourceType();
-
+        // Add a shutdown hook to close the WebSocket connection when the application is shutting down
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            // Close the WebSocket connection
+            ourLog.info("Session closed");
+            session.close();
+        }));
 
     }
 
     public void makeNewSubscriptionTopicR5() throws Exception {
 
-        FhirContext ctx = FhirContext.forR5();
-        IGenericClient client = ctx.newRestfulGenericClient("http://localhost:8888/fhir/");
-
-        String endpoint = "ws://localhost:8888/websocket";
-
-        String SUBSCRIPTION_TOPIC_TEST_URL = "http://molit.eu/fhir/SubscriptionTopic/clinicaltrials-germany";
         /*
         * Create topic
         */
@@ -227,7 +219,7 @@ public class SubscriptionTest {
         topic.setUrl(SUBSCRIPTION_TOPIC_TEST_URL);
         topic.setStatus(Enumerations.PublicationStatus.ACTIVE);
         SubscriptionTopic.SubscriptionTopicResourceTriggerComponent trigger = topic.addResourceTrigger();
-        trigger.setResource("Observation");
+        trigger.setResource("ResearchStudy");
         trigger.addSupportedInteraction(SubscriptionTopic.InteractionTrigger.CREATE);
         trigger.addSupportedInteraction(SubscriptionTopic.InteractionTrigger.UPDATE);
 
@@ -239,7 +231,7 @@ public class SubscriptionTest {
         Subscription subscription = new Subscription();
 
         subscription.setTopic(SUBSCRIPTION_TOPIC_TEST_URL);
-        subscription.setReason("Monitor new neonatal function (note, age will be determined by the monitor)");
+        subscription.setReason("Monitor new Research Study resources");
         subscription.setStatus(Enumerations.SubscriptionStatusCodes.REQUESTED);
         subscription.getChannelType()
         .setSystem("http://terminology.hl7.org/CodeSystem/subscription-channel-type")
@@ -250,11 +242,9 @@ public class SubscriptionTest {
         MethodOutcome methodOutcome = client.create().resource(subscription).execute();
         IIdType mySubscriptionId = methodOutcome.getId();
 
-        TimeUnit.SECONDS.sleep(20);
+        TimeUnit.SECONDS.sleep(2);
 
         System.out.println("Subscription ID: " + mySubscriptionId);
-        
-
 
     }
 
