@@ -21,6 +21,8 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.server.exceptions.BaseServerResponseException;
 import ca.uhn.fhir.util.BundleUtil;
+import io.swagger.configuration.SocketImplementation;
+import io.swagger.exceptions.NotFoundException;
 
 import org.hl7.fhir.r5.model.Bundle;
 import org.hl7.fhir.r5.model.Enumerations;

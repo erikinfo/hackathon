@@ -1,4 +1,4 @@
-package io.swagger.api;
+package io.swagger.configuration;
 
 import ca.uhn.fhir.rest.api.EncodingEnum;
 import org.eclipse.jetty.websocket.api.Session;
