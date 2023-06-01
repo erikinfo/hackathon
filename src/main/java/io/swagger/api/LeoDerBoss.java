@@ -26,18 +26,25 @@ public class LeoDerBoss {
     public static void main(String[] args)  {
 
         FhirContext ctx = FhirContext.forR5();
-        String directoryPath = "ResearchStudy.json";
+        String directoryPath = "/ResearchStudy.json";
         File file = new File(directoryPath);
 
-        //String directoryPath2 = "resources/cds-requests/Group-TrialInclusionGroupExample.json"
-        //Group group = null; 
-        //String input = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+        //String directoryPath2 = "resources/cds-requests/Group-TrialInclusionGroupExample.json";
+        //Group group = null;
+        //String input1;
+        //try {
+         //   input1 = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
 
-        // Instantiate a new parser
-        //IParser parser = ctx.newJsonParser();
+            // Instantiate a new parser
+           // IParser parser = ctx.newJsonParser();
 
-        // Parse it
-        //group = parser.parseResource(Group.class, input);
+            // Parse it
+           // group = parser.parseResource(Group.class, input1);
+
+        //} catch (IOException e) {
+        //    throw new RuntimeException(e);
+       // }
+
 
         ResearchStudy researchstudy = null;
         String input;
@@ -45,10 +52,10 @@ public class LeoDerBoss {
             input = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
 
             // Instantiate a new parser
-            IParser parser = ctx.newJsonParser();
+            IParser parser2 = ctx.newJsonParser();
 
             // Parse it
-            researchstudy = parser.parseResource(ResearchStudy.class, input);
+            researchstudy = parser2.parseResource(ResearchStudy.class, input);
 
             // Prints the full resource: 
             //System.out.println(parser.setPrettyPrint(true).encodeResourceToString(researchstudy));
@@ -82,7 +89,7 @@ public class LeoDerBoss {
             // Print the response
             System.out.println(response.getBody());
 
-            
+
 
 
         } catch (IOException e) {
