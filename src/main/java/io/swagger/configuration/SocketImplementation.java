@@ -26,6 +26,10 @@ public class SocketImplementation {
 		myCriteria = theCriteria;
 	}
 
+	public int getPingCount() {
+		return myPingCount;
+	}
+
 	public List<String> getMessages() {
 		return myMessages;
 	}

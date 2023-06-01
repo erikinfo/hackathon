@@ -2,11 +2,9 @@ package io.swagger.api;
 
 import java.io.File;
 import java.net.URI;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -56,10 +54,6 @@ public class SubscriptionTest {
             e.printStackTrace();
         }
         
-    }
-
-    public void sendCDSHook() {
-
     }
 
 
@@ -205,7 +199,7 @@ public class SubscriptionTest {
         /*
         * Ensure that we receive a ping on the websocket
         */
-        System.out.println("Ping count: " + mySocketImplementation.myPingCount);
+        System.out.println("Ping count: " + mySocketImplementation.getPingCount());
 
         System.out.println(mySocketImplementation.getMessages());
 

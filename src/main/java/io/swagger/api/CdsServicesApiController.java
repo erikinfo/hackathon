@@ -1,6 +1,8 @@
 package io.swagger.api;
 
+import io.swagger.model.CDSRequest;
 import io.swagger.model.CDSResponse;
+import io.swagger.model.CDSService;
 import io.swagger.model.CDSServiceInformation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
@@ -8,6 +10,7 @@ import io.swagger.model.Card;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,6 +34,9 @@ public class CdsServicesApiController implements CdsServicesApi {
 
     private final HttpServletRequest request;
 
+    @Autowired
+    private CDSServiceRepository cdsServiceRepository;
+
     @org.springframework.beans.factory.annotation.Autowired
     public CdsServicesApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
@@ -44,7 +50,7 @@ public class CdsServicesApiController implements CdsServicesApi {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success (includes CDS Cards)", response = CDSResponse.class)})
     // RequestMapping = does this method when POST
     @RequestMapping(value = "/cds-services/trials", produces = {"application/json"}, consumes = {"application/json"}, method = RequestMethod.POST) // @RequestHeader(name = "Authorization") String token,
-    public ResponseEntity<CDSResponse> cdsTestService(@ApiParam(value = "Body of CDS service request", required = true) @Valid @RequestBody String request, @RequestHeader Map<String, String> headers) {
+    public ResponseEntity<CDSResponse> cdsTestService(@ApiParam(value = "Body of CDS service request", required = true) @Valid @RequestBody CDSRequest request, @RequestHeader Map<String, String> headers) {
         logger.info("CDS Hook: template is triggered");                                                     // 
         logger.info("CDS Hook: request is " + request.toString());
 
@@ -76,32 +82,22 @@ public class CdsServicesApiController implements CdsServicesApi {
     }
 
 
-    public ResponseEntity<CDSServiceInformation> cdsServicesGet() {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<CDSServiceInformation>(objectMapper.readValue("{  \"bytes\": [],  \"empty\": true}", CDSServiceInformation.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<CDSServiceInformation>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-
-        return new ResponseEntity<CDSServiceInformation>(HttpStatus.NOT_IMPLEMENTED);
+    @RequestMapping(value = "/cds-services", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity cdsServicesGet() {
+        List<CDSService> allServices = cdsServiceRepository.getAllServices();
+        CDSServiceInformation serviceInformation = new CDSServiceInformation();
+        serviceInformation.setServices(allServices);
+        return new ResponseEntity<>(serviceInformation.toString(),HttpStatus.OK);
     }
 
-    public ResponseEntity<CDSResponse> cdsServicesIdPost(@ApiParam(value = "The id of this CDS service",required=true) @PathVariable("id") String id, @ApiParam(value = "Body of CDS service request" ,required=true )  @Valid @RequestBody HttpServletRequest request) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<CDSResponse>(objectMapper.readValue("{  \"bytes\": [],  \"empty\": true}", CDSResponse.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<CDSResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
+    @RequestMapping(value = "/cds-services/{id}", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<CDSResponse> cdsServicesIdPost(@PathVariable("id") String id,
+                                                     @Valid @RequestBody CDSService service) {
 
-        return new ResponseEntity<CDSResponse>(HttpStatus.NOT_IMPLEMENTED);
+        
+        cdsServiceRepository.saveService(service);
+        return new ResponseEntity<CDSResponse>(HttpStatus.OK);
     }
+        
 
 }
