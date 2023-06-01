@@ -26,24 +26,25 @@ public class LeoDerBoss {
     public static void main(String[] args)  {
 
         FhirContext ctx = FhirContext.forR5();
-        String directoryPath = "/ResearchStudy.json";
-        File file = new File(directoryPath);
+        //String directoryPath = "/other examples/ResearchStudy.json";
+        //File file = new File(directoryPath);
 
-        //String directoryPath2 = "resources/cds-requests/Group-TrialInclusionGroupExample.json";
-        //Group group = null;
-        //String input1;
-        //try {
-         //   input1 = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+        String directoryPath2 = "resources/cds-requests/Group-TrialInclusionGroupExample.json";
+        File file = new File(directoryPath2);
+        Group group = null;
+        String input1;
+        try {
+            input1 = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
 
             // Instantiate a new parser
-           // IParser parser = ctx.newJsonParser();
+            IParser parser = ctx.newJsonParser();
 
             // Parse it
-           // group = parser.parseResource(Group.class, input1);
+            group = parser.parseResource(Group.class, input1);
 
-        //} catch (IOException e) {
-        //    throw new RuntimeException(e);
-       // }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         ResearchStudy researchstudy = null;
