@@ -21,6 +21,7 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.server.exceptions.BaseServerResponseException;
 import ca.uhn.fhir.util.BundleUtil;
 import io.swagger.configuration.SocketImplementation;
+import io.swagger.exceptions.ApiException;
 import io.swagger.exceptions.NotFoundException;
 
 import org.hl7.fhir.r5.model.Bundle;
@@ -84,19 +85,15 @@ public class SubscriptionTest {
     }
 
 
-    public void intermediaryHandler(String subscription_id) throws Exception {
-
-        ArrayList<String> myMessages = new ArrayList<String>();
-        myMessages.add("ping " + subscription_id);
+    public void intermediaryHandler(String subscription_id, List<String> messages_received) throws Exception {
 
         // Extract ID after 'ping '
         String pingId = null;
-        for (String item : myMessages) {
+        for (String item : messages_received) {
             if (item.startsWith("ping ")) {
                 pingId = item.substring(5);
                 break;
             }
-
         }
 
         String topicID = null;
@@ -148,8 +145,7 @@ public class SubscriptionTest {
                 if (st.getResourceTrigger().get(0).getResource().equals("http://hl7.org/fhir/StructureDefinition/ResearchStudy")) {
                     ResearchStudy rs = getLatestResearchStudyByDate();
                     System.out.println(rs.getId());
-                    CDSHooks cds = new CDSHooks();
-                    cds.sendRequest(rs);
+                    new CDSHooks().sendRequest(rs);
                 } else {
                     throw new NotFoundException(404, "No ResearchStudy found in Topic!");
                 }
@@ -158,9 +154,8 @@ public class SubscriptionTest {
                 throw new NotFoundException(404, "No SubscriptionTopic found!");
             }
         
-            //System.out.println(results.getResourceTrigger());
         } else {
-            System.out.println("No ping ID found in the list.");
+            throw new ApiException(404, "No ping ID found in the list.");
         }
     }
 
@@ -188,10 +183,14 @@ public class SubscriptionTest {
         * Create a matching resource
         */
         //ResearchStudy rs = new ResearchStudy();
-        //rs.setStatus(Enumerations.PublicationStatus.ACTIVE);
+        ///rs.setStatus(Enumerations.PublicationStatus.ACTIVE);
         //client.create().resource(rs).execute();
 
-        TimeUnit.SECONDS.sleep(12);
+
+        while (mySocketImplementation.getPingCount() == 0) {
+            ourLog.info("Waiting for ping...");
+            TimeUnit.SECONDS.sleep(5);
+        }
 
         /*
         * Ensure that we receive a ping on the websocket
