@@ -1,5 +1,7 @@
 package io.swagger.api;
 
+import io.swagger.model.Action;
+import io.swagger.model.Action.TypeEnum;
 import io.swagger.model.CDSRequest;
 import io.swagger.model.CDSResponse;
 import io.swagger.model.CDSService;
@@ -7,6 +9,10 @@ import io.swagger.model.CDSServiceInformation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import io.swagger.model.Card;
+import io.swagger.model.Card.IndicatorEnum;
+import io.swagger.model.Resource;
+import io.swagger.model.Source;
+import io.swagger.model.Suggestion;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +26,10 @@ import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2023-01-27T10:43:47.246Z")
 
@@ -34,6 +42,8 @@ public class CdsServicesApiController implements CdsServicesApi {
 
     private final HttpServletRequest request;
 
+    private Map<String, Card> storedData = new HashMap<>();
+    
     @Autowired
     private CDSServiceRepository cdsServiceRepository;
 
@@ -50,13 +60,53 @@ public class CdsServicesApiController implements CdsServicesApi {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success (includes CDS Cards)", response = CDSResponse.class)})
     // RequestMapping = does this method when POST
     @RequestMapping(value = "/cds-services/trials", produces = {"application/json"}, consumes = {"application/json"}, method = RequestMethod.POST) // @RequestHeader(name = "Authorization") String token,
-    public ResponseEntity<CDSResponse> cdsTestService(@ApiParam(value = "Body of CDS service request", required = true) @Valid @RequestBody CDSRequest request, @RequestHeader Map<String, String> headers) {
+    public ResponseEntity<Card> cdsTestService(@ApiParam(value = "Body of CDS service request", required = true) @Valid @RequestBody CDSRequest request, @RequestHeader Map<String, String> headers) {
         logger.info("CDS Hook: template is triggered");                                                     // 
         logger.info("CDS Hook: request is " + request.toString());
 
         // Look at presentation and build Bundle 
 
         System.out.println(request.toString());
+
+        Card c = new Card();
+        c.setSummary("Example Card");
+        c.setDetail("This is an example card");
+        c.setIndicator(IndicatorEnum.INFO);
+
+        Source s = new Source();
+        s.setIcon("https://molit.eu/wp-content/uploads/2017/01/favicon.png");
+        s.setUrl("https://molit.eu/");
+        s.setLabel("Molit Institute");
+
+        Suggestion suggestions = new Suggestion();
+        suggestions.setLabel("##### Title: Radio-Immunotherapy");
+        suggestions.setUuid(new UUID(1, 0));
+
+        ArrayList<Suggestion> suggestionsList = new ArrayList<Suggestion>();
+
+        List<Action> actions = new ArrayList<Action>();
+        Action action = new Action();
+        action.setDescription("Based on condition and subtype, the patient could be enrolled to a clinical trial");
+        action.setType(TypeEnum.CREATE);
+        Resource resource = new Resource();
+        resource.setResourceType("Patient");
+        action.setResource(resource);
+        actions.add(action);
+
+        Action action2 = new Action();
+        action2.setDescription("Based on condition and subtype, the patient could be enrolled to a clinical trial 2");
+        action2.setType(TypeEnum.DELETE);
+        Resource resource2 = new Resource();
+        resource2.setResourceType("Task");
+        action2.setResource(resource);
+        actions.add(action2);
+
+        suggestions.setActions(actions);
+        suggestionsList.add(suggestions);
+        s.setSuggestions(suggestionsList);
+        c.setSource(s);
+
+        storedData.put("trials", c);
       
 
 
@@ -66,14 +116,7 @@ public class CdsServicesApiController implements CdsServicesApi {
 
         // INSERT: Our basic logic that for example when a Patient is old then a specific research study is good (must not be perfect at this point)
 
-        Card c = new Card();
-        c.setSummary("Example Card");
-        // ...
-
-        CDSResponse cdsR = new CDSResponse();
-        List<Card> l = new ArrayList<Card>();
-        l.add(c);
-        cdsR.setCards(l);
+        
 
 
         //ResponseEntity<CDSResponse> cdsResponseResponseEntity = new ResearchStudyQueryService(token).suggestResearchStudies(request, token);
@@ -98,6 +141,25 @@ public class CdsServicesApiController implements CdsServicesApi {
         cdsServiceRepository.saveService(service);
         return new ResponseEntity<CDSResponse>(HttpStatus.OK);
     }
+
+    @CrossOrigin // cross-domain-communication
+    @RequestMapping(value = "/cds-services/trials/1", 
+                produces = {"application/json"}, 
+                method = RequestMethod.GET) 
+    public ResponseEntity<Card> getCDSTestService() {
+
+        // Retrieve the CDSResponse object from in-memory storage using "trials" as the key
+        Card data = this.storedData.get("trials");
+        
+        if (data == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(data, HttpStatus.OK);
+        }
+    }
+
+    
+
         
 
 }

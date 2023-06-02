@@ -9,6 +9,7 @@ import io.swagger.annotations.*;
 import io.swagger.model.CDSRequest;
 import io.swagger.model.CDSResponse;
 import io.swagger.model.CDSServiceInformation;
+import io.swagger.model.Card;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,6 @@ public interface CdsServicesApi {
     @ApiOperation(value = "", nickname = "suggestionToPatientAStudy", notes = "Invoke a CDS service offered by this CDS Provider", response = CDSResponse.class, tags = {})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success (includes CDS Cards)", response = CDSResponse.class)})
     @RequestMapping(value = "/cds-services/template", produces = {"application/json"}, consumes = {"application/json"}, method = RequestMethod.POST)      // , @RequestHeader(name = "Authorization") String token
-    public ResponseEntity<CDSResponse> cdsTestService(@ApiParam(value = "Body of CDS service request", required = true) @Valid @RequestBody CDSRequest request, @RequestHeader Map<String, String> headers);
+    public ResponseEntity<Card> cdsTestService(@ApiParam(value = "Body of CDS service request", required = true) @Valid @RequestBody CDSRequest request, @RequestHeader Map<String, String> headers);
 
 }

@@ -23,6 +23,10 @@ import javax.validation.constraints.*;
 
 
 public class Card   {
+
+
+
+
   @JsonProperty("summary")
   private String summary = null;
 
@@ -68,45 +72,9 @@ public class Card   {
   @JsonProperty("source")
   private Source source = null;
 
-  @JsonProperty("suggestions")
-  @Valid
-  private List<Suggestion> suggestions = null;
+  
 
-  /**
-   * Gets or Sets selectionBehavior
-   */
-  public enum SelectionBehaviorEnum {
-    AT_MOST_ONE("at-most-one");
-
-    private String value;
-
-    SelectionBehaviorEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static SelectionBehaviorEnum fromValue(String text) {
-      for (SelectionBehaviorEnum b : SelectionBehaviorEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
-  @JsonProperty("selectionBehavior")
-  private SelectionBehaviorEnum selectionBehavior = null;
-
-  @JsonProperty("links")
-  @Valid
-  private List<Link> links = null;
+  
 
   public Card summary(String summary) {
     this.summary = summary;
@@ -192,84 +160,6 @@ public class Card   {
     this.source = source;
   }
 
-  public Card suggestions(List<Suggestion> suggestions) {
-    this.suggestions = suggestions;
-    return this;
-  }
-
-  public Card addSuggestionsItem(Suggestion suggestionsItem) {
-    if (this.suggestions == null) {
-      this.suggestions = new ArrayList<Suggestion>();
-    }
-    this.suggestions.add(suggestionsItem);
-    return this;
-  }
-
-  /**
-   * Get suggestions
-   * @return suggestions
-  **/
-  @ApiModelProperty(value = "")
-
-  @Valid
-
-  public List<Suggestion> getSuggestions() {
-    return suggestions;
-  }
-
-  public void setSuggestions(List<Suggestion> suggestions) {
-    this.suggestions = suggestions;
-  }
-
-  public Card selectionBehavior(SelectionBehaviorEnum selectionBehavior) {
-    this.selectionBehavior = selectionBehavior;
-    return this;
-  }
-
-  /**
-   * Get selectionBehavior
-   * @return selectionBehavior
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public SelectionBehaviorEnum getSelectionBehavior() {
-    return selectionBehavior;
-  }
-
-  public void setSelectionBehavior(SelectionBehaviorEnum selectionBehavior) {
-    this.selectionBehavior = selectionBehavior;
-  }
-
-  public Card links(List<Link> links) {
-    this.links = links;
-    return this;
-  }
-
-  public Card addLinksItem(Link linksItem) {
-    if (this.links == null) {
-      this.links = new ArrayList<Link>();
-    }
-    this.links.add(linksItem);
-    return this;
-  }
-
-  /**
-   * Get links
-   * @return links
-  **/
-  @ApiModelProperty(value = "")
-
-  @Valid
-
-  public List<Link> getLinks() {
-    return links;
-  }
-
-  public void setLinks(List<Link> links) {
-    this.links = links;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -283,15 +173,12 @@ public class Card   {
     return Objects.equals(this.summary, card.summary) &&
         Objects.equals(this.detail, card.detail) &&
         Objects.equals(this.indicator, card.indicator) &&
-        Objects.equals(this.source, card.source) &&
-        Objects.equals(this.suggestions, card.suggestions) &&
-        Objects.equals(this.selectionBehavior, card.selectionBehavior) &&
-        Objects.equals(this.links, card.links);
+        Objects.equals(this.source, card.source) ;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(summary, detail, indicator, source, suggestions, selectionBehavior, links);
+    return Objects.hash(summary, detail, indicator, source);
   }
 
   @Override
@@ -303,9 +190,6 @@ public class Card   {
     sb.append("    detail: ").append(toIndentedString(detail)).append("\n");
     sb.append("    indicator: ").append(toIndentedString(indicator)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
-    sb.append("    suggestions: ").append(toIndentedString(suggestions)).append("\n");
-    sb.append("    selectionBehavior: ").append(toIndentedString(selectionBehavior)).append("\n");
-    sb.append("    links: ").append(toIndentedString(links)).append("\n");
     sb.append("}");
     return sb.toString();
   }

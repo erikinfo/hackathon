@@ -2,7 +2,10 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Card;
@@ -15,13 +18,12 @@ import javax.validation.constraints.*;
 /**
  * CDSResponse
  */
-@Validated
+//@Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2023-01-27T10:43:47.246Z")
 
-
+//@JsonRootName(value = "") // Empty string to remove the root name
 public class CDSResponse   {
-  @JsonProperty("cards")
-  @Valid
+  //@Valid
   private List<Card> cards = new ArrayList<Card>();
 
   public CDSResponse cards(List<Card> cards) {
@@ -33,15 +35,6 @@ public class CDSResponse   {
     this.cards.add(cardsItem);
     return this;
   }
-
-  /**
-   * Get cards
-   * @return cards
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
 
   public List<Card> getCards() {
     return cards;
