@@ -72,6 +72,8 @@ public class CdsServicesApiController implements CdsServicesApi {
     // RequestMapping = does this method when POST
     @RequestMapping(value = "/cds-services/trials", produces = {"application/json"}, consumes = {"application/json"}, method = RequestMethod.POST) // @RequestHeader(name = "Authorization") String token,
     public ResponseEntity<Card> cdsTestService(@ApiParam(value = "Body of CDS service request", required = true) @Valid @RequestBody CDSRequest request, @RequestHeader Map<String, String> headers) {
+        
+        
         logger.info("CDS Hook: template is triggered");                                                     // 
         logger.info("CDS Hook: request is " + request.toString());
 
