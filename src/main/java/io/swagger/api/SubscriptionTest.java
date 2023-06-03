@@ -2,44 +2,52 @@ package io.swagger.api;
 
 import java.io.File;
 import java.net.URI;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
+import org.eclipse.jetty.websocket.client.WebSocketClient;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.fhir.r5.model.Bundle;
+import org.hl7.fhir.r5.model.CodeableConcept;
+import org.hl7.fhir.r5.model.Coding;
+import org.hl7.fhir.r5.model.Enumerations;
+import org.hl7.fhir.r5.model.Enumerations.SearchModifierCode;
+import org.hl7.fhir.r5.model.ResearchStudy;
+import org.hl7.fhir.r5.model.Resource;
+import org.hl7.fhir.r5.model.ResourceType;
+import org.hl7.fhir.r5.model.StringType;
+import org.hl7.fhir.r5.model.Subscription;
 import org.hl7.fhir.r5.model.SubscriptionTopic;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.api.Constants;
+import ca.uhn.fhir.rest.api.EncodingEnum;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.server.exceptions.BaseServerResponseException;
 import ca.uhn.fhir.util.BundleUtil;
-
-import org.hl7.fhir.r5.model.Bundle;
-import org.hl7.fhir.r5.model.Enumerations;
-import org.hl7.fhir.r5.model.Observation;
-import org.hl7.fhir.r5.model.ResearchStudy;
-import org.hl7.fhir.r5.model.Resource;
-import org.hl7.fhir.r5.model.ResourceType;
-import org.hl7.fhir.r5.model.Subscription;
-
-import ca.uhn.fhir.rest.api.Constants;
-import ca.uhn.fhir.rest.api.EncodingEnum;
-
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
-import org.eclipse.jetty.websocket.client.WebSocketClient;
+import io.swagger.configuration.SocketImplementation;
+import io.swagger.exceptions.ApiException;
+import io.swagger.exceptions.NotFoundException;
 
 public class SubscriptionTest {
 
     private static final org.slf4j.Logger ourLog = org.slf4j.LoggerFactory.getLogger(SubscriptionTest.class);
+
+    public static final IGenericClient client2 = FhirContext.forR5().newRestfulGenericClient("http://localhost:8888/fhir/");
+    public static final FhirContext ctx = FhirContext.forR5();
+
+    public static final String SUBSCRIPTION_TOPIC_TEST_URL = "http://molit.eu/fhir/SubscriptionTopic/clinicaltrials-germany-test5";
+
+    public static final String endpoint = "ws://localhost:8888/websocket";
 
     public static void main(String[] args) {
 
@@ -47,7 +55,9 @@ public class SubscriptionTest {
         SubscriptionTest ig = new SubscriptionTest();
     
         try {
-            ig.intermediaryHandler();
+            //ig.makeNewSubscriptionTopicR5();
+            ig.makeTestOnWebSocket("306");
+            //ig.makeTestOnWebSocket("261");
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -56,14 +66,10 @@ public class SubscriptionTest {
         
     }
 
-    public void sendCDSHook() {
 
-    }
-
-
-    public ResearchStudy getLatestResearchStudyByDate(IGenericClient client) {
+    public ResearchStudy getLatestResearchStudyByDate() {
         // Use the client to search for ResearchStudy resources sorted by date
-        Bundle response = client.search()
+        Bundle response = client2.search()
             .forResource(ResearchStudy.class)
             .sort().descending(Constants.PARAM_LASTUPDATED)
             .returnBundle(Bundle.class)
@@ -80,27 +86,21 @@ public class SubscriptionTest {
     }
 
 
-    public void intermediaryHandler() throws Exception {
-
-        FhirContext ctx = FhirContext.forR5();
-        IGenericClient client = ctx.newRestfulGenericClient("http://localhost:8888/fhir/");
-        ArrayList<String> myMessages = new ArrayList<String>();
-        myMessages.add("ping 203");
+    public void intermediaryHandler(String subscription_id, List<String> messages_received) throws Exception {
 
         // Extract ID after 'ping '
         String pingId = null;
-        for (String item : myMessages) {
+        for (String item : messages_received) {
             if (item.startsWith("ping ")) {
                 pingId = item.substring(5);
                 break;
             }
-
         }
 
         String topicID = null;
         if (pingId != null) {
             // Search for the Subscription
-            Subscription subscription = client.read()
+            Subscription subscription = client2.read()
                                              .resource(Subscription.class)
                                              .withId(pingId)
                                              .execute();
@@ -116,7 +116,7 @@ public class SubscriptionTest {
 
             String searchUrl = "SubscriptionTopic?url="+topicID;
             // Search for the Subscription
-            Bundle bundle = client.search()
+            Bundle bundle = client2.search()
                                              .forResource(SubscriptionTopic.class)
                                              .where(SubscriptionTopic.URL.matches().value(topicID))
                                              .returnBundle(Bundle.class)
@@ -128,7 +128,7 @@ public class SubscriptionTest {
 
             // Load the subsequent pages
             while (bundle.getLink(IBaseBundle.LINK_NEXT) != null) {
-                bundle = client
+                bundle = client2
                 .loadPage()
                 .next(bundle)
                 .execute();
@@ -144,8 +144,9 @@ public class SubscriptionTest {
                 System.out.println(st.getResourceTrigger().get(0).getResource());
 
                 if (st.getResourceTrigger().get(0).getResource().equals("http://hl7.org/fhir/StructureDefinition/ResearchStudy")) {
-                    ResearchStudy rs = getLatestResearchStudyByDate(client);
+                    ResearchStudy rs = getLatestResearchStudyByDate();
                     System.out.println(rs.getId());
+                    new CDSHooks().sendRequest(rs);
                 } else {
                     throw new NotFoundException(404, "No ResearchStudy found in Topic!");
                 }
@@ -154,29 +155,38 @@ public class SubscriptionTest {
                 throw new NotFoundException(404, "No SubscriptionTopic found!");
             }
         
-            //System.out.println(results.getResourceTrigger());
         } else {
-            System.out.println("No ping ID found in the list.");
+            throw new ApiException(404, "No ping ID found in the list.");
         }
     }
 
+    public void makeResearchStud() throws Exception {
+        ResearchStudy rs = new ResearchStudy();
+        rs.setStatus(Enumerations.PublicationStatus.ACTIVE);
 
-    public void makeTestOnWebSocket() throws Exception {
+        Coding coding = new Coding();
+        coding.setSystem("urn:iso:std:iso:3166"); // Set the coding system
+        coding.setCode("DE"); // Set the coding code
+        CodeableConcept codeableConcept = new CodeableConcept();
+        codeableConcept.addCoding(coding); // Add the coding to the CodeableConcept
 
-        String SUBSCRIPTION_TOPIC_TEST_URL = "http://molit.eu/fhir/SubscriptionTopic/clinicaltrials-germany";
+        List<CodeableConcept> codeableConceptList = new ArrayList<>();
+        codeableConceptList.add(codeableConcept);
 
 
-        FhirContext ctx = FhirContext.forR5();
-        IGenericClient client = ctx.newRestfulGenericClient("http://localhost:8888/fhir/");
+        rs.setRegion(codeableConceptList);
+        
+        client2.create().resource(rs).execute();
+    }
+
+
+    public void makeTestOnWebSocket(String subscription_id) throws Exception {
+
         /*
         * Attach websocket WITH CORRECT CRITERIA
         */
-
-        String endpoint = "ws://localhost:8888/websocket";
-
-    
         WebSocketClient myWebSocketClient = new WebSocketClient();
-        SocketImplementation mySocketImplementation = new SocketImplementation("203", EncodingEnum.JSON);
+        SocketImplementation mySocketImplementation = new SocketImplementation(subscription_id, EncodingEnum.JSON);
 
         myWebSocketClient.start();
 
@@ -184,45 +194,55 @@ public class SubscriptionTest {
         ClientUpgradeRequest request = new ClientUpgradeRequest();
         ourLog.info("Connecting to : {}", echoUri);
         Future<Session> connection = myWebSocketClient.connect(mySocketImplementation, echoUri, request);
-        Session session = connection.get(2, TimeUnit.SECONDS);
+        Session session = connection.get(); // 2, TimeUnit.SECONDS
 
         ourLog.info("Connected to WS: {}", session.isOpen());
 
         //TimeUnit.SECONDS.sleep(15);
-
-
         /*
         * Create a matching resource
         */
-        Observation obs = new Observation();
-        obs.setStatus(Enumerations.ObservationStatus.FINAL);
-        client.create().resource(obs).execute();
+        ResearchStudy rs = new ResearchStudy();
+        rs.setStatus(Enumerations.PublicationStatus.ACTIVE);
 
-        TimeUnit.SECONDS.sleep(12);
+        Coding coding = new Coding();
+        coding.setSystem("urn:iso:std:iso:3166"); // Set the coding system
+        coding.setCode("AD"); // Set the coding code
+        CodeableConcept codeableConcept = new CodeableConcept();
+        codeableConcept.addCoding(coding); // Add the coding to the CodeableConcept
+
+        List<CodeableConcept> codeableConceptList = new ArrayList<>();
+        codeableConceptList.add(codeableConcept);
+
+
+        rs.setRegion(codeableConceptList);
+        
+        client2.create().resource(rs).execute();
+
+
+        while (mySocketImplementation.getPingCount() == 0) {
+            ourLog.info("Waiting for ping...");
+            TimeUnit.SECONDS.sleep(5);
+        }
 
         /*
         * Ensure that we receive a ping on the websocket
         */
-        System.out.println("Ping count: " + mySocketImplementation.myPingCount);
+        System.out.println("Ping count: " + mySocketImplementation.getPingCount());
 
         System.out.println(mySocketImplementation.getMessages());
 
-
-        Subscription subscription = new Subscription();
-
-        subscription.getResourceType();
-
+        // Add a shutdown hook to close the WebSocket connection when the application is shutting down
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            // Close the WebSocket connection
+            ourLog.info("Session closed");
+            session.close();
+        }));
 
     }
 
     public void makeNewSubscriptionTopicR5() throws Exception {
 
-        FhirContext ctx = FhirContext.forR5();
-        IGenericClient client = ctx.newRestfulGenericClient("http://localhost:8888/fhir/");
-
-        String endpoint = "ws://localhost:8888/websocket";
-
-        String SUBSCRIPTION_TOPIC_TEST_URL = "http://molit.eu/fhir/SubscriptionTopic/clinicaltrials-germany";
         /*
         * Create topic
         */
@@ -231,11 +251,17 @@ public class SubscriptionTest {
         topic.setUrl(SUBSCRIPTION_TOPIC_TEST_URL);
         topic.setStatus(Enumerations.PublicationStatus.ACTIVE);
         SubscriptionTopic.SubscriptionTopicResourceTriggerComponent trigger = topic.addResourceTrigger();
-        trigger.setResource("Observation");
+        trigger.setResource("ResearchStudy");
         trigger.addSupportedInteraction(SubscriptionTopic.InteractionTrigger.CREATE);
         trigger.addSupportedInteraction(SubscriptionTopic.InteractionTrigger.UPDATE);
 
-        client.create().resource(topic).execute();
+        SubscriptionTopic.SubscriptionTopicCanFilterByComponent canFilterBy = topic.addCanFilterBy();
+        canFilterBy.setDescription("Filter by region");
+        canFilterBy.setResource("ResearchStudy");
+        canFilterBy.setFilterParameter("http://hl7.org/fhir/SearchParameter/ResearchStudy-region");
+
+        client2.create().resource(topic).execute();
+
 
         /*
         * Create subscription
@@ -243,22 +269,27 @@ public class SubscriptionTest {
         Subscription subscription = new Subscription();
 
         subscription.setTopic(SUBSCRIPTION_TOPIC_TEST_URL);
-        subscription.setReason("Monitor new neonatal function (note, age will be determined by the monitor)");
+        subscription.setReason("Monitor new Research Study resources");
         subscription.setStatus(Enumerations.SubscriptionStatusCodes.REQUESTED);
         subscription.getChannelType()
         .setSystem("http://terminology.hl7.org/CodeSystem/subscription-channel-type")
         .setCode("websocket");
         subscription.setContentType("application/fhir+json");
         subscription.setEndpoint(endpoint);
+        Subscription.SubscriptionFilterByComponent filter = subscription.addFilterBy();
 
-        MethodOutcome methodOutcome = client.create().resource(subscription).execute();
+        filter.setFilterParameter("http://hl7.org/fhir/SearchParameter/ResearchStudy-region");
+        System.out.println(canFilterBy.getFilterParameter());
+        filter.setFilterParameterElement(new StringType(canFilterBy.getFilterParameter()));
+        filter.setValue("DE"); // "urn:iso:std:iso:3166|DE"
+        filter.setModifier(SearchModifierCode.CONTAINS);
+
+        MethodOutcome methodOutcome = client2.create().resource(subscription).execute();
         IIdType mySubscriptionId = methodOutcome.getId();
 
-        TimeUnit.SECONDS.sleep(20);
+        TimeUnit.SECONDS.sleep(2);
 
         System.out.println("Subscription ID: " + mySubscriptionId);
-        
-
 
     }
 

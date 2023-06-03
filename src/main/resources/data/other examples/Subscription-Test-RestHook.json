@@ -1,0 +1,12 @@
+{
+    "resourceType": "Subscription",
+    "status": "requested",
+    "topic": "http://molit.eu/fhir/SubscriptionTopic/trials-rest",
+    "reason": "Monitor new oncologic clinical trials in Germany",
+    "channelType": {
+                    "system": "http://terminology.hl7.org/CodeSystem/subscription-channel-type",
+                    "code": "rest-hook"
+                },
+  "endpoint" : "ws://localhost:8082/cds-services/trials",
+  "contentType": "application/fhir+json"
+}

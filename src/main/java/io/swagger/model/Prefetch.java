@@ -1,12 +1,11 @@
 package io.swagger.model;
 
-import java.util.Objects;
-import io.swagger.annotations.ApiModel;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
+
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import io.swagger.annotations.ApiModel;
 
 /**
  * queries that the CDS Service would like the CDS Client to execute before every call

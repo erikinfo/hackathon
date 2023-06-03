@@ -1,13 +1,14 @@
 package io.swagger.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.NotNull;
+
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Source
@@ -25,6 +26,8 @@ public class Source   {
 
   @JsonProperty("icon")
   private String icon = null;
+
+  
 
   public Source label(String label) {
     this.label = label;
@@ -46,6 +49,7 @@ public class Source   {
   public void setLabel(String label) {
     this.label = label;
   }
+
 
   public Source url(String url) {
     this.url = url;
@@ -111,7 +115,7 @@ public class Source   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Source {\n");
-    
+
     sb.append("    label: ").append(toIndentedString(label)).append("\n");
     sb.append("    url: ").append(toIndentedString(url)).append("\n");
     sb.append("    icon: ").append(toIndentedString(icon)).append("\n");

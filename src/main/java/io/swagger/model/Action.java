@@ -4,10 +4,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
@@ -58,7 +56,7 @@ public class Action   {
   private String description = null;
 
   @JsonProperty("resource")
-  private Object resource = null;
+  private Resource resource = null;
 
   public Action type(TypeEnum type) {
     this.type = type;
@@ -102,7 +100,7 @@ public class Action   {
     this.description = description;
   }
 
-  public Action resource(Object resource) {
+  public Action resource(Resource resource) {
     this.resource = resource;
     return this;
   }
@@ -118,7 +116,7 @@ public class Action   {
     return resource;
   }
 
-  public void setResource(Object resource) {
+  public void setResource(Resource resource) {
     this.resource = resource;
   }
 

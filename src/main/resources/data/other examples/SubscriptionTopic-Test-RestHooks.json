@@ -1,0 +1,13 @@
+{
+  "resourceType" : "SubscriptionTopic",
+  "url" : "http://molit.eu/fhir/SubscriptionTopic/trials-rest",
+  "title" : "Clinical Trials Germany",
+  "version" : "1.0.0-beta.1",
+  "status" : "active",
+  "description" : "Monitor new oncologic clinical trials in Germany",
+  "resourceTrigger" : [{
+    "resource" : "http://hl7.org/fhir/StructureDefinition/ResearchStudy",
+    "supportedInteraction" : ["create", "update"]
+  }]
+}
+

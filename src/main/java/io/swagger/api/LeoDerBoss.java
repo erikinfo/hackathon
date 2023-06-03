@@ -5,17 +5,15 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
-import org.hl7.fhir.r5.model.Group;
 import org.hl7.fhir.r5.model.ResearchStudy;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.client.RestTemplate;
-
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
@@ -26,26 +24,18 @@ public class LeoDerBoss {
     public static void main(String[] args)  {
 
         FhirContext ctx = FhirContext.forR5();
-        //String directoryPath = "/other examples/ResearchStudy.json";
-        //File file = new File(directoryPath);
+        String directoryPath = "ResearchStudy.json";
+        File file = new File(directoryPath);
 
-        String directoryPath2 = "./Group-TrialInclusionGroupExample.json";
-        File file = new File(directoryPath2);
-        Group group = null;
-        String input1;
-        try {
-            input1 = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+        //String directoryPath2 = "resources/cds-requests/Group-TrialInclusionGroupExample.json"
+        //Group group = null; 
+        //String input = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
 
-            // Instantiate a new parser
-            IParser parser = ctx.newJsonParser();
+        // Instantiate a new parser
+        //IParser parser = ctx.newJsonParser();
 
-            // Parse it
-            group = parser.parseResource(Group.class, input1);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+        // Parse it
+        //group = parser.parseResource(Group.class, input);
 
         ResearchStudy researchstudy = null;
         String input;
@@ -53,10 +43,10 @@ public class LeoDerBoss {
             input = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
 
             // Instantiate a new parser
-            IParser parser2 = ctx.newJsonParser();
+            IParser parser = ctx.newJsonParser();
 
             // Parse it
-            researchstudy = parser2.parseResource(ResearchStudy.class, input);
+            researchstudy = parser.parseResource(ResearchStudy.class, input);
 
             // Prints the full resource: 
             //System.out.println(parser.setPrettyPrint(true).encodeResourceToString(researchstudy));
@@ -90,7 +80,7 @@ public class LeoDerBoss {
             // Print the response
             System.out.println(response.getBody());
 
-
+            
 
 
         } catch (IOException e) {

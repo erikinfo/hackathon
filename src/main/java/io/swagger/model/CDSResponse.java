@@ -1,27 +1,18 @@
 package io.swagger.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Card;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.util.Objects;
 
 /**
  * CDSResponse
  */
-@Validated
+//@Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2023-01-27T10:43:47.246Z")
 
-
+//@JsonRootName(value = "") // Empty string to remove the root name
 public class CDSResponse   {
-  @JsonProperty("cards")
-  @Valid
+  //@Valid
   private List<Card> cards = new ArrayList<Card>();
 
   public CDSResponse cards(List<Card> cards) {
@@ -33,15 +24,6 @@ public class CDSResponse   {
     this.cards.add(cardsItem);
     return this;
   }
-
-  /**
-   * Get cards
-   * @return cards
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
 
   public List<Card> getCards() {
     return cards;

@@ -1,4 +1,4 @@
-package io.swagger.api;
+package io.swagger.configuration;
 
 import ca.uhn.fhir.rest.api.EncodingEnum;
 import org.eclipse.jetty.websocket.api.Session;
@@ -24,6 +24,10 @@ public class SocketImplementation {
 
 	public SocketImplementation(String theCriteria, EncodingEnum theEncoding) {
 		myCriteria = theCriteria;
+	}
+
+	public int getPingCount() {
+		return myPingCount;
 	}
 
 	public List<String> getMessages() {
