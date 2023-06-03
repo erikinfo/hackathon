@@ -103,6 +103,10 @@ public class CdsServicesApiController implements CdsServicesApi {
         suggestions.setLabel("##### Title: Radio-Immunotherapy");
         suggestions.setUuid(new UUID(1, 0));
 
+        Suggestion suggestion2 = new Suggestion();
+        suggestion2.setLabel("##### Title: Cancer TNM");
+        suggestion2.setUuid(new UUID(3, 0));
+
         ArrayList<Suggestion> suggestionsList = new ArrayList<Suggestion>();
 
         List<Action> actions = new ArrayList<Action>();
@@ -123,6 +127,8 @@ public class CdsServicesApiController implements CdsServicesApi {
         actions.add(action2);
 
         suggestions.setActions(actions);
+        suggestion2.setActions(actions);
+        suggestionsList.add(suggestion2);
         suggestionsList.add(suggestions);
         c.setSuggestions(suggestionsList);
         c.setSource(s);
