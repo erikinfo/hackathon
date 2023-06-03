@@ -8,26 +8,22 @@ import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import io.swagger.model.Action;
+import io.swagger.model.Action.TypeEnum;
 import io.swagger.model.CDSResponse;
 import io.swagger.model.Card;
+import io.swagger.model.Card.IndicatorEnum;
+import io.swagger.model.Card.SelectionBehaviorEnum;
 import io.swagger.model.Link;
 import io.swagger.model.Resource;
 import io.swagger.model.Source;
 import io.swagger.model.Suggestion;
-import io.swagger.model.Action.TypeEnum;
-import io.swagger.model.Card.IndicatorEnum;
-import io.swagger.model.Card.SelectionBehaviorEnum;
 
 public class CDSResponseJsonTest {
 

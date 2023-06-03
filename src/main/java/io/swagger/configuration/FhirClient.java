@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import ca.uhn.fhir.util.SubscriptionUtil;
 
 @Configuration
 public class FhirClient {

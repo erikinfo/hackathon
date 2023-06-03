@@ -1,20 +1,13 @@
 package io.swagger.api;
 
-import io.swagger.model.Action;
-import io.swagger.model.Action.TypeEnum;
-import io.swagger.model.CDSRequest;
-import io.swagger.model.CDSResponse;
-import io.swagger.model.CDSService;
-import io.swagger.model.CDSServiceInformation;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
-import io.swagger.model.Card;
-import io.swagger.model.Link;
-import io.swagger.model.Card.IndicatorEnum;
-import io.swagger.model.Card.SelectionBehaviorEnum;
-import io.swagger.model.Resource;
-import io.swagger.model.Source;
-import io.swagger.model.Suggestion;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,16 +15,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.validation.Valid;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.model.Action;
+import io.swagger.model.Action.TypeEnum;
+import io.swagger.model.CDSRequest;
+import io.swagger.model.CDSResponse;
+import io.swagger.model.CDSService;
+import io.swagger.model.CDSServiceInformation;
+import io.swagger.model.Card;
+import io.swagger.model.Card.IndicatorEnum;
+import io.swagger.model.Card.SelectionBehaviorEnum;
+import io.swagger.model.Link;
+import io.swagger.model.Resource;
+import io.swagger.model.Source;
+import io.swagger.model.Suggestion;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2023-01-27T10:43:47.246Z")
 

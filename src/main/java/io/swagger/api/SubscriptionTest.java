@@ -9,16 +9,27 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
-import org.hl7.fhir.dstu3.model.codesystems.PublicationStatus;
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
+import org.eclipse.jetty.websocket.client.WebSocketClient;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
-import org.hl7.fhir.r5.model.SubscriptionTopic;
-import org.hl7.fhir.r5.model.UriType;
+import org.hl7.fhir.r5.model.Bundle;
+import org.hl7.fhir.r5.model.CodeableConcept;
+import org.hl7.fhir.r5.model.Coding;
+import org.hl7.fhir.r5.model.Enumerations;
 import org.hl7.fhir.r5.model.Enumerations.SearchModifierCode;
-import org.hl7.fhir.r5.model.Subscription.SubscriptionFilterByComponent;
+import org.hl7.fhir.r5.model.ResearchStudy;
+import org.hl7.fhir.r5.model.Resource;
+import org.hl7.fhir.r5.model.ResourceType;
+import org.hl7.fhir.r5.model.StringType;
+import org.hl7.fhir.r5.model.Subscription;
+import org.hl7.fhir.r5.model.SubscriptionTopic;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.api.Constants;
+import ca.uhn.fhir.rest.api.EncodingEnum;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.server.exceptions.BaseServerResponseException;
@@ -26,24 +37,6 @@ import ca.uhn.fhir.util.BundleUtil;
 import io.swagger.configuration.SocketImplementation;
 import io.swagger.exceptions.ApiException;
 import io.swagger.exceptions.NotFoundException;
-
-import org.hl7.fhir.r5.model.Bundle;
-import org.hl7.fhir.r5.model.CodeableConcept;
-import org.hl7.fhir.r5.model.Coding;
-import org.hl7.fhir.r5.model.Enumerations;
-import org.hl7.fhir.r5.model.Observation;
-import org.hl7.fhir.r5.model.ResearchStudy;
-import org.hl7.fhir.r5.model.Resource;
-import org.hl7.fhir.r5.model.ResourceType;
-import org.hl7.fhir.r5.model.StringType;
-import org.hl7.fhir.r5.model.Subscription;
-
-import ca.uhn.fhir.rest.api.Constants;
-import ca.uhn.fhir.rest.api.EncodingEnum;
-
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
-import org.eclipse.jetty.websocket.client.WebSocketClient;
 
 public class SubscriptionTest {
 
