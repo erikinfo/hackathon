@@ -117,6 +117,12 @@ public class CDSResponseJsonTest {
 
         logger.info(json);
 
+        assertEquals("Example Card", c.getSummary());
+        assertEquals("This is an example card", c.getDetail());
+        assertEquals(IndicatorEnum.INFO, c.getIndicator());
+
+        assertEquals("https://molit.eu/", c.getSource().getUrl());
+
 
     }
 }
