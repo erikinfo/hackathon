@@ -21,11 +21,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import io.swagger.model.Action;
 import io.swagger.model.CDSResponse;
 import io.swagger.model.Card;
+import io.swagger.model.Link;
 import io.swagger.model.Resource;
 import io.swagger.model.Source;
 import io.swagger.model.Suggestion;
 import io.swagger.model.Action.TypeEnum;
 import io.swagger.model.Card.IndicatorEnum;
+import io.swagger.model.Card.SelectionBehaviorEnum;
 
 public class CDSResponseJsonTest {
 
@@ -68,6 +70,16 @@ public class CDSResponseJsonTest {
         s.setUrl("https://molit.eu/");
         s.setLabel("Molit Institute");
 
+        ArrayList<Link> links = new ArrayList<Link>();
+        Link link = new Link();
+        link.setLabel("Adjuvant Aspirin Treatment in PIK3CA Mutated Colon Cancer Patients. A Randomized, Double-blinded, Placebo-controlled, Phase III Trial");
+        link.setUrl("https://clinicaltrials.gov/ct2/show/NCT02467582");
+        link.setType("Clinical Trial");
+        
+        links.add(0, link);
+        c.setLinks(links);
+        c.setSelectionBehavior(SelectionBehaviorEnum.AT_MOST_ONE);
+
         Suggestion suggestions = new Suggestion();
         suggestions.setLabel("##### Title: Radio-Immunotherapy");
         suggestions.setUuid(new UUID(1, 0));
@@ -93,7 +105,7 @@ public class CDSResponseJsonTest {
 
         suggestions.setActions(actions);
         suggestionsList.add(suggestions);
-        s.setSuggestions(suggestionsList);
+        c.setSuggestions(suggestionsList);
         c.setSource(s);
 
       

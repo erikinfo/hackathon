@@ -29,45 +29,7 @@ public class Source   {
   @JsonProperty("icon")
   private String icon = null;
 
-  @JsonProperty("suggestions")
-  @Valid
-  private List<Suggestion> suggestions = null;
-
-  /**
-   * Gets or Sets selectionBehavior
-   */
-  public enum SelectionBehaviorEnum {
-    AT_MOST_ONE("at-most-one");
-
-    private String value;
-
-    SelectionBehaviorEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static SelectionBehaviorEnum fromValue(String text) {
-      for (SelectionBehaviorEnum b : SelectionBehaviorEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
-  @JsonProperty("selectionBehavior")
-  private SelectionBehaviorEnum selectionBehavior = null;
-
-  @JsonProperty("links")
-  @Valid
-  private List<Link> links = null;
+  
 
   public Source label(String label) {
     this.label = label;
@@ -90,17 +52,6 @@ public class Source   {
     this.label = label;
   }
 
-  public void setSuggestions(List<Suggestion> suggestions) {  
-    this.suggestions = suggestions;
-  }
-
-  public void setselectionBehavior(SelectionBehaviorEnum selectionBehavior) {
-    this.selectionBehavior = selectionBehavior;
-  }
-
-  public void setLinks(List<Link> links) {
-    this.links = links;
-  }
 
   public Source url(String url) {
     this.url = url;
