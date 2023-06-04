@@ -39,6 +39,7 @@ public class CDSResponseJsonTest {
     @Test
     public void testJsonProperty() throws IOException {
         // Create a sample JSON string
+        //TODO: modify manual the String json , so it can be usable for our presentation. Check if it is possible to use an already json file created by us (local). Check if this is ok.
         String json = "{\"cards\":[{\"summary\":\"Example Card\",\"detail\":\"This is an example card\"}]}";
         // Deserialize the JSON string to CDSResponse object
         CDSResponse cdsResponse = mapper.readValue(json, CDSResponse.class);
