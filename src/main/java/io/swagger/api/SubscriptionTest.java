@@ -15,17 +15,8 @@ import org.eclipse.jetty.websocket.client.WebSocketClient;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
-import org.hl7.fhir.r5.model.Bundle;
-import org.hl7.fhir.r5.model.CodeableConcept;
-import org.hl7.fhir.r5.model.Coding;
-import org.hl7.fhir.r5.model.Enumerations;
+import org.hl7.fhir.r5.model.*;
 import org.hl7.fhir.r5.model.Enumerations.SearchModifierCode;
-import org.hl7.fhir.r5.model.ResearchStudy;
-import org.hl7.fhir.r5.model.Resource;
-import org.hl7.fhir.r5.model.ResourceType;
-import org.hl7.fhir.r5.model.StringType;
-import org.hl7.fhir.r5.model.Subscription;
-import org.hl7.fhir.r5.model.SubscriptionTopic;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.Constants;
@@ -327,7 +318,7 @@ public class SubscriptionTest {
             File folder = new File(directoryPath);
             File[] files = folder.listFiles();
 
-            FhirContext ctx = FhirContext.forR4();
+            FhirContext ctx = FhirContext.forR4();//TODO: R5?
             IGenericClient client = ctx.newRestfulGenericClient("http://localhost:8080/fhir/");
     
             // Create a new Bundle resource
