@@ -14,7 +14,7 @@ public class ExternalEHRFHIRServerRetrieval {
     public static void main(String[] args) throws Exception {
         ExternalEHRFHIRServerRetrieval ehr = new ExternalEHRFHIRServerRetrieval();
         Patient p = ehr.retrievePatientFromServer();
-
+        //Patient p= ehr.getPatientFromFHIR(); same as above
     }
 
     public Patient getPatientFromFHIR() {
