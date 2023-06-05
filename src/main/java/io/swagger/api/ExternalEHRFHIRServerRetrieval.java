@@ -6,6 +6,9 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Patient;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 import java.util.List;
 
 public class ExternalEHRFHIRServerRetrieval {
