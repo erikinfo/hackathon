@@ -101,9 +101,16 @@ public class CdsServicesApiController implements CdsServicesApi {
 
         // Parse it
         ResearchStudy researchStudy = parser.parseResource(ResearchStudy.class, request.getPrefetch().toString());
-        logger.info(researchStudy.toString());//research study to become.
+        logger.info(researchStudy.toString());
 
-        //ResearchStudy researchStudy = (ResearchStudy) request.getPrefetch();
+
+        // PSEUDO CODE: if any of: then OR if all then AND
+
+        // Lets pretend we get these values since HAPI 6.6 currently does not support the eligibility criteria
+        String observationCodes = "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C49164,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C114879,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C102869";
+        String conditionCode = "http://snomed.info/sct|443493003";
+
+        List<Patient> patients = searchForPatient(observationCodes, conditionCode);
 
 
 
@@ -175,10 +182,6 @@ public class CdsServicesApiController implements CdsServicesApi {
         //researchStudy.getPeriod();//of the study availability
 
 
-        Suggestion suggestion2 = new Suggestion();
-        suggestion2.setLabel("##### Title: Cancer TNM");
-        suggestion2.setUuid(new UUID(3, 0));
-
         ArrayList<Suggestion> suggestionsList = new ArrayList<Suggestion>();
 
         List<Action> actions = new ArrayList<Action>();
@@ -201,8 +204,6 @@ public class CdsServicesApiController implements CdsServicesApi {
         //TODO: here another action for the criterias
         Action action3 = new Action();
         suggestions.setActions(actions);
-        suggestion2.setActions(actions);
-        suggestionsList.add(suggestion2);
         suggestionsList.add(suggestions);
         c.setSuggestions(suggestionsList);
         c.setSource(s);
