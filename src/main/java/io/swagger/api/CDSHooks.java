@@ -1,8 +1,13 @@
 package io.swagger.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.hl7.fhir.r5.model.CodeableConcept;
+import org.hl7.fhir.r5.model.Coding;
+import org.hl7.fhir.r5.model.Enumerations;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,10 +27,33 @@ public class CDSHooks {
 
         CDSHooks hooks = new CDSHooks();
         ResearchStudy researchStudy = new ResearchStudy();
+
+        //following lines creates a condition for test purposes. Keep an eye when loading a research study direct.
+        // Create a CodeableConcept representing the condition being studied
+        CodeableConcept condition = new CodeableConcept();
+        // Create a Coding representing the SNOMED code for the condition
+        Coding coding = new Coding();
+        coding.setSystem("http://snomed.info/sct");
+        coding.setCode("363358000"); // fictitious code created for demonstration purposes
+        coding.setDisplay("Solid Tumors with Oncogenic Alterations and High Tumor Mutational Burden");
+        // Add the Coding to the CodeableConcept
+        condition.addCoding(coding);
+        // Create a list of CodeableConcepts and add the condition
+        List<CodeableConcept> conditions = new ArrayList<>();
+        conditions.add(condition);
+        //finished condition
+
         researchStudy.setId("123");
-        researchStudy.setTitle("Test");
-        researchStudy.setName("Hallo");
-        //TODO: here add the setters (researchStudy.setsmth) that are going to be called later in the CdsServicesApiController.
+        researchStudy.setTitle("Example from CDSHooks: Tumor-Agnostic Precision Immuno-Oncology and Somatic Targeting Rational for You (TAPISTRY) Platform Study");
+        researchStudy.setName("Example-Test-purpose");
+        researchStudy.setCondition(conditions);
+        researchStudy.setPeriod();
+        researchStudy.setRegion();
+        researchStudy.setDescriptionSummary("");
+
+        //researchStudy.setStatus(Enumerations.PublicationStatus.valueOf("active"));//prob. not necessary here, instead: researchStudy.getStatus();
+        //researchStudy.setRecruitment();  //inclusion and exclusion criterias
+        //ResearchStudy
         hooks.sendRequest(researchStudy);
     }
 

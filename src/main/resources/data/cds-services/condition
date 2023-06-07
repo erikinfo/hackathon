@@ -1,0 +1,14 @@
+
+condition , that can be added at the end to Researchstudy-BasketTrial.json
+
+"condition": [
+    {
+      "coding": [
+        {
+          "system": "http://snomed.info/sct",
+          "code": "123456",
+          "display": "Example Condition"
+        }
+      ]
+    }
+  ]

@@ -11,6 +11,7 @@ import javax.validation.Valid;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
+import io.swagger.annotations.*;
 import org.hl7.fhir.r5.model.ResearchStudy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +28,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.model.Action;
 import io.swagger.model.Action.TypeEnum;
 import io.swagger.model.CDSRequest;
@@ -105,8 +102,8 @@ public class CdsServicesApiController implements CdsServicesApi {
         System.out.println(request.toString());
 
         Card c = new Card();
-        c.setSummary("Example Card");
-        c.setDetail("This is an example card");
+        c.setSummary(researchStudy.getTitle());//"Example: Info Card"
+        c.setDetail("Delivers an info card containing the most important information and a list of eligible patients");
         c.setIndicator(IndicatorEnum.INFO);
 
         Source s = new Source();
@@ -116,17 +113,46 @@ public class CdsServicesApiController implements CdsServicesApi {
 
         ArrayList<Link> links = new ArrayList<Link>();
         Link link = new Link();
+        s.setLabel("Link for the Research Study:");
         link.setLabel("Adjuvant Aspirin Treatment in PIK3CA Mutated Colon Cancer Patients. A Randomized, Double-blinded, Placebo-controlled, Phase III Trial");
         link.setUrl("https://clinicaltrials.gov/ct2/show/NCT02467582");
         link.setType("Clinical Trial");
-        
+        //Alternative for smartlink app card
+        Link smartlink = new Link();
+        s.setLabel("Link for the App:");
+        smartlink.setLabel("HealthGPT APP");
+        smartlink.setUrl("https://www.healthgptapp.com/");//TODO: change link with the one were the interface of the app can be shown (prototype)
+
         links.add(0, link);
+        links.add(1,smartlink);
+
         c.setLinks(links);
         c.setSelectionBehavior(SelectionBehaviorEnum.AT_MOST_ONE);
 
+
+
+        //If the UI used in this project could show other cards as well, it would be able to show this smart app link card.
+        //Smartlink app card : provides link for the health gpt Appc(interactive way of providing information about a study)
+        //for patient and doctor.
+        /*
+        Card smartlinkapp = new Card();
+        smartlinkapp.setDetail("Link for the HealthGPT APP");
+        Link smartlink = new Link();
+        smartlink.setLabel("HealthGPT APP");
+        link.setUrl("https://www.healthgptapp.com/");
+        */
+
+
         Suggestion suggestions = new Suggestion();
-        suggestions.setLabel("##### Title: Radio-Immunotherapy");
+        //suggestions.setLabel("##### Title: Radio-Immunotherapy Before Cystectomy in Locally Advanced Urothelial Carcinoma of the Bladder\r\n* Status: **Active**, \r\n* Intervention: **Folfiri**,\r\n* Study Sites: \r\n   * Klinikum rechts der Isar der Technischen Universit\u00E4t M\u00FCnchen, \r\n   * Universit\u00E4tsklinikum W\u00FCrzburg,\r\n",);
+        suggestions.setLabel("##### Title: " + researchStudy.getTitle() + "\r\n* Date range: **" + researchStudy.getPeriod() +"**, \r\n* Region: **"+researchStudy.getRegion()+"**,\\r\\n* Criterias: \\r\\n" + researchStudy.getRecruitment().getEligibility() + "* \\r\\n\",); " );
         suggestions.setUuid(new UUID(1, 0));
+        researchStudy.getRegion();//where is it being realised
+        researchStudy.getRecruitment().getEligibility();//criterias
+        researchStudy.getProtocol();//steps to follow
+        researchStudy.getDescriptionSummary();//brief description of the study
+        researchStudy.getCondition();//condition being study
+        researchStudy.getPeriod();//of the study availability
 
         Suggestion suggestion2 = new Suggestion();
         suggestion2.setLabel("##### Title: Cancer TNM");
@@ -151,6 +177,8 @@ public class CdsServicesApiController implements CdsServicesApi {
         action2.setResource(resource);
         actions.add(action2);
 
+        //TODO: here another action for the criterias
+        Action action3 = new Action();
         suggestions.setActions(actions);
         suggestion2.setActions(actions);
         suggestionsList.add(suggestion2);
