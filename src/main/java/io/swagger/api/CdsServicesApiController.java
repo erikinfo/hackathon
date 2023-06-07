@@ -151,7 +151,9 @@ public class CdsServicesApiController implements CdsServicesApi {
 
         Suggestion suggestions = new Suggestion();
         //suggestions.setLabel("##### Title: Radio-Immunotherapy Before Cystectomy in Locally Advanced Urothelial Carcinoma of the Bladder\r\n* Status: **Active**, \r\n* Intervention: **Folfiri**,\r\n* Study Sites: \r\n   * Klinikum rechts der Isar der Technischen Universit\u00E4t M\u00FCnchen, \r\n   * Universit\u00E4tsklinikum W\u00FCrzburg,\r\n",);
-        suggestions.setLabel("##### Title: " + researchStudy.getTitle() +"\r\n* Condition: "+ researchStudy.getCondition() + ", \r\n* Date range: **" + researchStudy.getPeriod() +"**,\r\n* Region: **"+researchStudy.getRegion()+"**,\\r\\n* Brief Summary: \\r\\n" + researchStudy.getDescriptionSummary() + "* \\r\\n\",); " );
+        suggestions.setLabel("##### Title: " + researchStudy.getTitle() +"\r\n* Condition: "+ researchStudy.getCondition()
+                + ", \r\n* Date range: **" + researchStudy.getPeriod().toString() +"**,\r\n* Region: **"+researchStudy.getRegion()
+                +"**,\\r\\n* Brief Summary: \\r\\n" + researchStudy.getDescriptionSummary() + "* \\r\\n\",); " );
         suggestions.setUuid(new UUID(1, 0));
         //researchStudy.getRegion();//where is it being realised
         //researchStudy.getRecruitment().getEligibility();//criterias
