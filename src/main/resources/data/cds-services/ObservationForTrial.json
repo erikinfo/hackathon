@@ -1,0 +1,33 @@
+{
+  "resourceType": "Observation",
+  "id": "example",
+  "status": "final",
+  "code": {
+    "coding": [
+      {
+        "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code": "C49164",
+        "display": "Response Evaluation Criteria in Solid Tumors, Version 1.1"
+      },
+      {
+        "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code": "C114879",
+        "display": "Response Assessment in Neuro-Oncology"
+      },
+      {
+        "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code": "C102869",
+        "display": "International Neuroblastoma Response Criteria"
+      }
+    ],
+    "text": "Defined by either RECIST v1.1, RANO, or INRC"
+  },
+  "subject": {
+    "reference": "Patient/403"
+  }
+}
+
+
+
+
+

@@ -34,6 +34,14 @@ public class SocketImplementation {
 		return myMessages;
 	}
 
+	public void deleteMessagesIfHandled() {
+		myMessages.removeIf(n -> n.contains("ping"));  // Remove all zeros from the list
+	}
+
+	public void setPingCount(int ping) {
+		myPingCount = ping;
+	}
+
 	public void keepAlive() {
 		if (this.session != null) {
 			try {

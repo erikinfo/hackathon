@@ -15,8 +15,19 @@ import org.eclipse.jetty.websocket.client.WebSocketClient;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
-import org.hl7.fhir.r5.model.*;
+import org.hl7.fhir.r5.model.Bundle;
+import org.hl7.fhir.r5.model.CodeableConcept;
+import org.hl7.fhir.r5.model.Coding;
+import org.hl7.fhir.r5.model.Enumerations;
 import org.hl7.fhir.r5.model.Enumerations.SearchModifierCode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.hl7.fhir.r5.model.ResearchStudy;
+import org.hl7.fhir.r5.model.Resource;
+import org.hl7.fhir.r5.model.ResourceType;
+import org.hl7.fhir.r5.model.StringType;
+import org.hl7.fhir.r5.model.Subscription;
+import org.hl7.fhir.r5.model.SubscriptionTopic;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.Constants;
@@ -29,25 +40,32 @@ import io.swagger.configuration.SocketImplementation;
 import io.swagger.exceptions.ApiException;
 import io.swagger.exceptions.NotFoundException;
 
-public class SubscriptionTest {
+@Service
+public class SubscriptionTriggerService {
 
-    private static final org.slf4j.Logger ourLog = org.slf4j.LoggerFactory.getLogger(SubscriptionTest.class);
+    private static final org.slf4j.Logger ourLog = org.slf4j.LoggerFactory.getLogger(SubscriptionTriggerService.class);
 
-    public static final IGenericClient client2 = FhirContext.forR5().newRestfulGenericClient("http://localhost:8888/fhir/");
-    public static final FhirContext ctx = FhirContext.forR5();
+    public final IGenericClient client2; //= FhirContext.forR5().newRestfulGenericClient("http://localhost:8888/fhir/");
+    public final FhirContext ctx;
 
-    public static final String SUBSCRIPTION_TOPIC_TEST_URL = "http://molit.eu/fhir/SubscriptionTopic/clinicaltrials-germany-test5";
+    public static final String SUBSCRIPTION_TOPIC_TEST_URL = "http://molit.eu/fhir/SubscriptionTopic/clinicaltrials-germany-test6";
 
     public static final String endpoint = "ws://localhost:8888/websocket";
+
+    @Autowired
+    public SubscriptionTriggerService(IGenericClient fhirClient, FhirContext ctx) {
+        this.client2 = fhirClient;
+        this.ctx = ctx;
+    }
 
     public static void main(String[] args) {
 
 
-        SubscriptionTest ig = new SubscriptionTest();
+        //SubscriptionTriggerService ig = new SubscriptionTriggerService();
     
         try {
             //ig.makeNewSubscriptionTopicR5();
-            ig.makeTestOnWebSocket("306");
+            //ig.makeTestOnWebSocket("408");
             //ig.makeTestOnWebSocket("261");
 
         } catch (Exception e) {
@@ -78,22 +96,25 @@ public class SubscriptionTest {
 
 
     public void intermediaryHandler(String subscription_id, List<String> messages_received) throws Exception {
-
+        
+        if (messages_received.size() == 0) {
+            throw new ApiException(404, "No messages received!");
+        }
         // Extract ID after 'ping '
-        String pingId = null;
+        String subscriptionIDWhenPing = null;
         for (String item : messages_received) {
             if (item.startsWith("ping ")) {
-                pingId = item.substring(5);
+                subscriptionIDWhenPing = item.substring(5);
                 break;
             }
         }
 
         String topicID = null;
-        if (pingId != null) {
+        if (subscriptionIDWhenPing != null) {
             // Search for the Subscription
             Subscription subscription = client2.read()
                                              .resource(Subscription.class)
-                                             .withId(pingId)
+                                             .withId(subscriptionIDWhenPing)
                                              .execute();
         
             // Get the resource type
@@ -132,9 +153,11 @@ public class SubscriptionTest {
 
                 SubscriptionTopic st = (SubscriptionTopic) results.get(0);
 
-                System.out.println(st.getResourceTrigger().get(0).getResource());
+                ourLog.info(st.getResourceTrigger().get(0).getResource());
 
-                if (st.getResourceTrigger().get(0).getResource().equals("http://hl7.org/fhir/StructureDefinition/ResearchStudy")) {
+                //System.out.println(st.getResourceTrigger().get(0).getResource());
+
+                if (st.getResourceTrigger().get(0).getResource().equals("ResearchStudy")) {
                     ResearchStudy rs = getLatestResearchStudyByDate();
                     System.out.println(rs.getId());
                     new CDSHooks().sendRequest(rs);
@@ -186,6 +209,7 @@ public class SubscriptionTest {
         ourLog.info("Connecting to : {}", echoUri);
         Future<Session> connection = myWebSocketClient.connect(mySocketImplementation, echoUri, request);
         Session session = connection.get(); // 2, TimeUnit.SECONDS
+        session.setIdleTimeout(-1);
 
         ourLog.info("Connected to WS: {}", session.isOpen());
 
@@ -193,43 +217,32 @@ public class SubscriptionTest {
         /*
         * Create a matching resource
         */
-        ResearchStudy rs = new ResearchStudy();
-        rs.setStatus(Enumerations.PublicationStatus.ACTIVE);
-
-        Coding coding = new Coding();
-        coding.setSystem("urn:iso:std:iso:3166"); // Set the coding system
-        coding.setCode("AD"); // Set the coding code
-        CodeableConcept codeableConcept = new CodeableConcept();
-        codeableConcept.addCoding(coding); // Add the coding to the CodeableConcept
-
-        List<CodeableConcept> codeableConceptList = new ArrayList<>();
-        codeableConceptList.add(codeableConcept);
-
-
-        rs.setRegion(codeableConceptList);
-        
-        client2.create().resource(rs).execute();
-
-
-        while (mySocketImplementation.getPingCount() == 0) {
-            ourLog.info("Waiting for ping...");
-            TimeUnit.SECONDS.sleep(5);
-        }
+        //ResearchStudy rs = new ResearchStudy();
+        //rs.setStatus(Enumerations.PublicationStatus.ACTIVE);
+        //client2.create().resource(rs).execute();
 
         /*
         * Ensure that we receive a ping on the websocket
         */
-        System.out.println("Ping count: " + mySocketImplementation.getPingCount());
 
-        System.out.println(mySocketImplementation.getMessages());
+        int ping_count = 0;
+        while (true) {
+            ourLog.info("Waiting for ping...");
+            TimeUnit.SECONDS.sleep(5);
+            System.out.println("Ping count: " + mySocketImplementation.getPingCount());
 
-        // Add a shutdown hook to close the WebSocket connection when the application is shutting down
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            // Close the WebSocket connection
-            ourLog.info("Session closed");
-            session.close();
-        }));
-
+            if (mySocketImplementation.getPingCount() > ping_count) {
+                try {
+                    intermediaryHandler(subscription_id, mySocketImplementation.getMessages());
+                    ping_count = mySocketImplementation.getPingCount();
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            System.out.println(mySocketImplementation.getMessages());
+            mySocketImplementation.deleteMessagesIfHandled();
+        }
     }
 
     public void makeNewSubscriptionTopicR5() throws Exception {
@@ -318,7 +331,7 @@ public class SubscriptionTest {
             File folder = new File(directoryPath);
             File[] files = folder.listFiles();
 
-            FhirContext ctx = FhirContext.forR4();//TODO: R5?
+            FhirContext ctx = FhirContext.forR4();
             IGenericClient client = ctx.newRestfulGenericClient("http://localhost:8080/fhir/");
     
             // Create a new Bundle resource

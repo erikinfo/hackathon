@@ -1,0 +1,563 @@
+{
+  "resourceType" : "Group",
+  "id" : "TrialInclusionGroupExample",
+  "meta" : {
+    "profile" : ["http://molit.eu/fhir/trials/StructureDefinition/study-inclusion-group"]
+  },
+  "text" : {
+    "status" : "extensions",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Group</b><a name=\"TrialInclusionGroupExample\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Group &quot;TrialInclusionGroupExample&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-study-inclusion-group.html\">Inclusion Group</a></p></div><p><b>type</b>: person</p><p><b>actual</b>: false</p><blockquote><p><b>characteristic</b></p><p><b>code</b>: C25696 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C25696)</span></p><p><b>value</b>: Adenocarcinoma <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C2852)</span></p><p><b>exclude</b>: false</p></blockquote><blockquote><p><b>characteristic</b></p><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>author</code></blockquote><p><b>value</b>: Dr. med. Alexa Google</p><blockquote><p><b>url</b></p><code>timestamp</code></blockquote><p><b>value</b>: 2021-07-19T10:31:27.706+02:00</p><blockquote><p><b>url</b></p><code>valueComponent</code></blockquote><p><b>value</b>: Adenosquamös <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C3727)</span></p><blockquote><p><b>url</b></p><code>manual</code></blockquote><p><b>value</b>: false</p><blockquote><p><b>url</b></p><code>confirmed</code></blockquote><p><b>value</b>: true</p></blockquote><p><b>code</b>: C25696 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C25696)</span></p><p><b>value</b>: Adenosquamös <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C3727)</span></p><p><b>exclude</b>: false</p></blockquote><blockquote><p><b>characteristic</b></p><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>author</code></blockquote><p><b>value</b>: Dr. med. Alexa Google</p><blockquote><p><b>url</b></p><code>timestamp</code></blockquote><p><b>value</b>: 2021-07-19T10:31:27.706+02:00</p><blockquote><p><b>url</b></p><code>valueComponent</code></blockquote><p><b>value</b>: IA <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-UICCCS.html\">UICC-Klassifikation</a>#IA)</span></p><blockquote><p><b>url</b></p><code>manual</code></blockquote><p><b>value</b>: false</p><blockquote><p><b>url</b></p><code>confirmed</code></blockquote><p><b>value</b>: true</p></blockquote><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>author</code></blockquote><p><b>value</b>: Dr. med. Boris Mayer</p><blockquote><p><b>url</b></p><code>timestamp</code></blockquote><p><b>value</b>: 2021-07-25T10:31:27.706+02:00</p><blockquote><p><b>url</b></p><code>valueComponent</code></blockquote><p><b>value</b>: IIA <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-UICCCS.html\">UICC-Klassifikation</a>#IA)</span></p><blockquote><p><b>url</b></p><code>manual</code></blockquote><p><b>value</b>: true</p><blockquote><p><b>url</b></p><code>confirmed</code></blockquote><p><b>value</b>: true</p></blockquote><p><b>code</b>: C39434 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C39434)</span></p><p><b>value</b>: IA <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-UICCCS.html\">UICC-Klassifikation</a>#IA)</span></p><p><b>exclude</b>: false</p></blockquote><blockquote><p><b>characteristic</b></p><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>author</code></blockquote><p><b>value</b>: Dr. med. Max Mustermann</p><blockquote><p><b>url</b></p><code>timestamp</code></blockquote><p><b>value</b>: 2019-07-19T10:31:27.706+02:00</p><blockquote><p><b>url</b></p><code>valueComponent</code></blockquote><p><b>value</b>: A1CF <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ([not stated]#HGNC:24086)</span></p><blockquote><p><b>url</b></p><code>manual</code></blockquote><p><b>value</b>: true</p><blockquote><p><b>url</b></p><code>confirmed</code></blockquote><p><b>value</b>: true</p></blockquote><p><b>code</b>: C16612 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C16612)</span></p><p><b>value</b>: A1CF <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ([not stated]#HGNC:24086)</span></p><p><b>exclude</b>: false</p></blockquote><blockquote><p><b>characteristic</b></p><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>author</code></blockquote><p><b>value</b>: Dr. med. Ivonne Kleinschmidt</p><blockquote><p><b>url</b></p><code>timestamp</code></blockquote><p><b>value</b>: 2019-12-19T10:31:27.706+02:00</p><blockquote><p><b>url</b></p><code>valueComponent</code></blockquote><p><b>value</b>: ALS1 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ([not stated]#HGNC:442)</span></p><blockquote><p><b>url</b></p><code>manual</code></blockquote><p><b>value</b>: true</p><blockquote><p><b>url</b></p><code>confirmed</code></blockquote><p><b>value</b>: false</p></blockquote><p><b>code</b>: C18093 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C18093)</span></p><p><b>value</b>: ALS1 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ([not stated]#HGNC:442)</span></p><p><b>exclude</b>: false</p></blockquote><blockquote><p><b>characteristic</b></p><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>author</code></blockquote><p><b>value</b>: Dr. med. Ivonne Kleinschmidt</p><blockquote><p><b>url</b></p><code>timestamp</code></blockquote><p><b>value</b>: 2019-12-27T10:31:27.706+02:00</p><blockquote><p><b>url</b></p><code>valueComponent</code></blockquote><p><b>value</b>: ALS1 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ([not stated]#HGNC:442)</span></p><blockquote><p><b>url</b></p><code>manual</code></blockquote><p><b>value</b>: true</p><blockquote><p><b>url</b></p><code>confirmed</code></blockquote><p><b>value</b>: false</p></blockquote><p><b>code</b>: C133518 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C133518)</span></p><p><b>value</b>: 1 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ([not stated]#1)</span></p><p><b>exclude</b>: false</p></blockquote><blockquote><p><b>characteristic</b></p><p><b>code</b>: C133518 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C133518)</span></p><p><b>value</b>: 2 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ([not stated]#2)</span></p><p><b>exclude</b>: false</p></blockquote><blockquote><p><b>characteristic</b></p><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>author</code></blockquote><p><b>value</b>: Dr. med. Ivonne Kleinschmidt</p><blockquote><p><b>url</b></p><code>timestamp</code></blockquote><p><b>value</b>: 2019-12-27T10:31:27.706+02:00</p><blockquote><p><b>url</b></p><code>valueComponent</code></blockquote><p><b>value</b>: true</p><blockquote><p><b>url</b></p><code>manual</code></blockquote><p><b>value</b>: true</p><blockquote><p><b>url</b></p><code>confirmed</code></blockquote><p><b>value</b>: false</p></blockquote><p><b>code</b>: C2140 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C2140)</span></p><p><b>value</b>: true</p><p><b>exclude</b>: false</p></blockquote><blockquote><p><b>characteristic</b></p><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>author</code></blockquote><p><b>value</b>: Dr. med. Ivonne Kleinschmidt</p><blockquote><p><b>url</b></p><code>timestamp</code></blockquote><p><b>value</b>: 2019-12-27T10:31:27.706+02:00</p><blockquote><p><b>url</b></p><code>valueComponent</code></blockquote><p><b>value</b>: High <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#LA9193-9)</span></p><blockquote><p><b>url</b></p><code>manual</code></blockquote><p><b>value</b>: true</p><blockquote><p><b>url</b></p><code>confirmed</code></blockquote><p><b>value</b>: true</p></blockquote><p><b>code</b>: Mutations/Megabase [# Ratio] in Tumor <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#94076-7)</span></p><p><b>value</b>: High <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#LA9193-9)</span></p><p><b>exclude</b>: false</p></blockquote><blockquote><p><b>characteristic</b></p><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>author</code></blockquote><p><b>value</b>: trials-backend</p><blockquote><p><b>url</b></p><code>timestamp</code></blockquote><p><b>value</b>: 2021-07-25T10:31:27.706+02:00</p><blockquote><p><b>url</b></p><code>valueComponent</code></blockquote><p><b>value</b>: Bösartige Neubildung der Zunge <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (icd-10-gm#C18)</span></p><blockquote><p><b>url</b></p><code>manual</code></blockquote><p><b>value</b>: false</p><blockquote><p><b>url</b></p><code>confirmed</code></blockquote><p><b>value</b>: true</p></blockquote><p><b>code</b>: C154625 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C154625)</span></p><p><b>value</b>: Bösartige Neubildung des Pankreas <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (icd-10-gm#C25)</span></p><p><b>exclude</b>: false</p></blockquote><blockquote><p><b>characteristic</b></p><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>author</code></blockquote><p><b>value</b>: trials-backend</p></blockquote><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>timestamp</code></blockquote><p><b>value</b>: 2021-07-25T10:31:27.706+02:00</p></blockquote><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>valueComponent</code></blockquote><p><b>value</b>: oxyquinoline <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-WC.html\">WHO ATC</a>#A01AB07)</span></p></blockquote><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>manual</code></blockquote><p><b>value</b>: false</p></blockquote><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>confirmed</code></blockquote><p><b>value</b>: true</p></blockquote><p><b>code</b>: C45306 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C45306)</span></p><p><b>value</b>: oxyquinoline <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-WC.html\">WHO ATC</a>#A01AB07)</span></p><p><b>exclude</b>: false</p></blockquote><blockquote><p><b>characteristic</b></p><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>author</code></blockquote><p><b>value</b>: trials-backend</p></blockquote><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>timestamp</code></blockquote><p><b>value</b>: 2021-07-24T10:31:27.706+02:00</p></blockquote><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>valueComponent</code></blockquote><p><b>value</b>: oxyquinoline <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-WC.html\">WHO ATC</a>#A01AB07)</span></p></blockquote><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>manual</code></blockquote><p><b>value</b>: false</p></blockquote><blockquote><p><b>Generic Audit Element Extension</b></p><blockquote><p><b>url</b></p><code>confirmed</code></blockquote><p><b>value</b>: true</p></blockquote><p><b>code</b>: C45306 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C45306)</span></p><p><b>value</b>: Adecatumumab <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-UnknownSubstancesCS.html\">Nicht gereviewte kodierte Substanzen</a>#adecatumumab)</span></p><p><b>exclude</b>: false</p></blockquote><blockquote><p><b>characteristic</b></p><p><b>code</b>: Human Epidermal Growth Factor Receptor 2 Measurement <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C112312)</span></p><p><b>value</b>: Positive <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#LA6576-8)</span></p><p><b>exclude</b>: false</p></blockquote><blockquote><p><b>characteristic</b></p><p><b>code</b>: Epstein-Barr Virus (EBV) <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-nciThesaurus.html\">NCI Thesaurus</a>#C14204)</span></p><p><b>value</b>: Negative <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#LA6577-6)</span></p><p><b>exclude</b>: false</p></blockquote></div>"
+  },
+  "type" : "person",
+  "actual" : false,
+  "characteristic" : [{
+    "code" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C25696"
+      }]
+    },
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C2852",
+        "display" : "Adenocarcinoma"
+      }]
+    },
+    "exclude" : false
+  },
+  {
+    "extension" : [{
+      "extension" : [{
+        "url" : "author",
+        "valueString" : "Dr. med. Alexa Google"
+      },
+      {
+        "url" : "timestamp",
+        "valueString" : "2021-07-19T10:31:27.706+02:00"
+      },
+      {
+        "url" : "valueComponent",
+        "valueCodeableConcept" : {
+          "coding" : [{
+            "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+            "code" : "C3727",
+            "display" : "Adenosquamös"
+          }]
+        }
+      },
+      {
+        "url" : "manual",
+        "valueBoolean" : false
+      },
+      {
+        "url" : "confirmed",
+        "valueBoolean" : true
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    }],
+    "code" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C25696"
+      }]
+    },
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C3727",
+        "display" : "Adenosquamös"
+      }]
+    },
+    "exclude" : false
+  },
+  {
+    "extension" : [{
+      "extension" : [{
+        "url" : "author",
+        "valueString" : "Dr. med. Alexa Google"
+      },
+      {
+        "url" : "timestamp",
+        "valueString" : "2021-07-19T10:31:27.706+02:00"
+      },
+      {
+        "url" : "valueComponent",
+        "valueCodeableConcept" : {
+          "coding" : [{
+            "system" : "http://molit.eu/fhir/trials/CodeSystem/UICCCS",
+            "code" : "IA",
+            "display" : "IA"
+          }]
+        }
+      },
+      {
+        "url" : "manual",
+        "valueBoolean" : false
+      },
+      {
+        "url" : "confirmed",
+        "valueBoolean" : true
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    },
+    {
+      "extension" : [{
+        "url" : "author",
+        "valueString" : "Dr. med. Boris Mayer"
+      },
+      {
+        "url" : "timestamp",
+        "valueString" : "2021-07-25T10:31:27.706+02:00"
+      },
+      {
+        "url" : "valueComponent",
+        "valueCodeableConcept" : {
+          "coding" : [{
+            "system" : "http://molit.eu/fhir/trials/CodeSystem/UICCCS",
+            "code" : "IA",
+            "display" : "IIA"
+          }]
+        }
+      },
+      {
+        "url" : "manual",
+        "valueBoolean" : true
+      },
+      {
+        "url" : "confirmed",
+        "valueBoolean" : true
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    }],
+    "code" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C39434"
+      }]
+    },
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "system" : "http://molit.eu/fhir/trials/CodeSystem/UICCCS",
+        "code" : "IA",
+        "display" : "IA"
+      }]
+    },
+    "exclude" : false
+  },
+  {
+    "extension" : [{
+      "extension" : [{
+        "url" : "author",
+        "valueString" : "Dr. med. Max Mustermann"
+      },
+      {
+        "url" : "timestamp",
+        "valueString" : "2019-07-19T10:31:27.706+02:00"
+      },
+      {
+        "url" : "valueComponent",
+        "valueCodeableConcept" : {
+          "coding" : [{
+            "code" : "HGNC:24086",
+            "display" : "A1CF"
+          }]
+        }
+      },
+      {
+        "url" : "manual",
+        "valueBoolean" : true
+      },
+      {
+        "url" : "confirmed",
+        "valueBoolean" : true
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    }],
+    "code" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C16612"
+      }]
+    },
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "code" : "HGNC:24086",
+        "display" : "A1CF"
+      }]
+    },
+    "exclude" : false
+  },
+  {
+    "extension" : [{
+      "extension" : [{
+        "url" : "author",
+        "valueString" : "Dr. med. Ivonne Kleinschmidt"
+      },
+      {
+        "url" : "timestamp",
+        "valueString" : "2019-12-19T10:31:27.706+02:00"
+      },
+      {
+        "url" : "valueComponent",
+        "valueCodeableConcept" : {
+          "coding" : [{
+            "code" : "HGNC:442",
+            "display" : "ALS1"
+          }]
+        }
+      },
+      {
+        "url" : "manual",
+        "valueBoolean" : true
+      },
+      {
+        "url" : "confirmed",
+        "valueBoolean" : false
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    }],
+    "code" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C18093"
+      }]
+    },
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "code" : "HGNC:442",
+        "display" : "ALS1"
+      }]
+    },
+    "exclude" : false
+  },
+  {
+    "extension" : [{
+      "extension" : [{
+        "url" : "author",
+        "valueString" : "Dr. med. Ivonne Kleinschmidt"
+      },
+      {
+        "url" : "timestamp",
+        "valueString" : "2019-12-27T10:31:27.706+02:00"
+      },
+      {
+        "url" : "valueComponent",
+        "valueCodeableConcept" : {
+          "coding" : [{
+            "code" : "HGNC:442",
+            "display" : "ALS1"
+          }]
+        }
+      },
+      {
+        "url" : "manual",
+        "valueBoolean" : true
+      },
+      {
+        "url" : "confirmed",
+        "valueBoolean" : false
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    }],
+    "code" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C133518"
+      }]
+    },
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "code" : "1",
+        "display" : "1"
+      }]
+    },
+    "exclude" : false
+  },
+  {
+    "code" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C133518"
+      }]
+    },
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "code" : "2",
+        "display" : "2"
+      }]
+    },
+    "exclude" : false
+  },
+  {
+    "extension" : [{
+      "extension" : [{
+        "url" : "author",
+        "valueString" : "Dr. med. Ivonne Kleinschmidt"
+      },
+      {
+        "url" : "timestamp",
+        "valueString" : "2019-12-27T10:31:27.706+02:00"
+      },
+      {
+        "url" : "valueComponent",
+        "valueBoolean" : true
+      },
+      {
+        "url" : "manual",
+        "valueBoolean" : true
+      },
+      {
+        "url" : "confirmed",
+        "valueBoolean" : false
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    }],
+    "code" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C2140"
+      }]
+    },
+    "valueBoolean" : true,
+    "exclude" : false
+  },
+  {
+    "extension" : [{
+      "extension" : [{
+        "url" : "author",
+        "valueString" : "Dr. med. Ivonne Kleinschmidt"
+      },
+      {
+        "url" : "timestamp",
+        "valueString" : "2019-12-27T10:31:27.706+02:00"
+      },
+      {
+        "url" : "valueComponent",
+        "valueCodeableConcept" : {
+          "coding" : [{
+            "system" : "http://loinc.org",
+            "code" : "LA9193-9",
+            "display" : "High"
+          }]
+        }
+      },
+      {
+        "url" : "manual",
+        "valueBoolean" : true
+      },
+      {
+        "url" : "confirmed",
+        "valueBoolean" : true
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    }],
+    "code" : {
+      "coding" : [{
+        "system" : "http://loinc.org",
+        "code" : "94076-7"
+      }]
+    },
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "system" : "http://loinc.org",
+        "code" : "LA9193-9",
+        "display" : "High"
+      }]
+    },
+    "exclude" : false
+  },
+  {
+    "extension" : [{
+      "extension" : [{
+        "url" : "author",
+        "valueString" : "trials-backend"
+      },
+      {
+        "url" : "timestamp",
+        "valueString" : "2021-07-25T10:31:27.706+02:00"
+      },
+      {
+        "url" : "valueComponent",
+        "valueCodeableConcept" : {
+          "coding" : [{
+            "system" : "http://fhir.de/CodeSystem/dimdi/icd-10-gm",
+            "code" : "C18",
+            "display" : "Bösartige Neubildung der Zunge"
+          }]
+        }
+      },
+      {
+        "url" : "manual",
+        "valueBoolean" : false
+      },
+      {
+        "url" : "confirmed",
+        "valueBoolean" : true
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    }],
+    "code" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C154625"
+      }]
+    },
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "system" : "http://fhir.de/CodeSystem/dimdi/icd-10-gm",
+        "code" : "C25",
+        "display" : "Bösartige Neubildung des Pankreas"
+      }]
+    },
+    "exclude" : false
+  },
+  {
+    "extension" : [{
+      "extension" : [{
+        "url" : "author",
+        "valueString" : "trials-backend"
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    },
+    {
+      "extension" : [{
+        "url" : "timestamp",
+        "valueString" : "2021-07-25T10:31:27.706+02:00"
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    },
+    {
+      "extension" : [{
+        "url" : "valueComponent",
+        "valueCodeableConcept" : {
+          "coding" : [{
+            "system" : "http://www.whocc.no/atc",
+            "code" : "A01AB07",
+            "display" : "oxyquinoline"
+          }]
+        }
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    },
+    {
+      "extension" : [{
+        "url" : "manual",
+        "valueBoolean" : false
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    },
+    {
+      "extension" : [{
+        "url" : "confirmed",
+        "valueBoolean" : true
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    }],
+    "code" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C45306"
+      }]
+    },
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "system" : "http://www.whocc.no/atc",
+        "code" : "A01AB07",
+        "display" : "oxyquinoline"
+      }]
+    },
+    "exclude" : false
+  },
+  {
+    "extension" : [{
+      "extension" : [{
+        "url" : "author",
+        "valueString" : "trials-backend"
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    },
+    {
+      "extension" : [{
+        "url" : "timestamp",
+        "valueString" : "2021-07-24T10:31:27.706+02:00"
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    },
+    {
+      "extension" : [{
+        "url" : "valueComponent",
+        "valueCodeableConcept" : {
+          "coding" : [{
+            "system" : "http://www.whocc.no/atc",
+            "code" : "A01AB07",
+            "display" : "oxyquinoline"
+          }]
+        }
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    },
+    {
+      "extension" : [{
+        "url" : "manual",
+        "valueBoolean" : false
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    },
+    {
+      "extension" : [{
+        "url" : "confirmed",
+        "valueBoolean" : true
+      }],
+      "url" : "http://molit.eu/fhir/trials/StructureDefinition/GenericAuditElementExtension"
+    }],
+    "code" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C45306"
+      }]
+    },
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "system" : "http://molit.eu/fhir/trials/CodeSystem/UnknownSubstancesCS",
+        "code" : "adecatumumab",
+        "display" : "Adecatumumab"
+      }]
+    },
+    "exclude" : false
+  },
+  {
+    "code" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C112312",
+        "display" : "Human Epidermal Growth Factor Receptor 2 Measurement"
+      }]
+    },
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "system" : "http://loinc.org",
+        "code" : "LA6576-8",
+        "display" : "Positive"
+      }]
+    },
+    "exclude" : false
+  },
+  {
+    "code" : {
+      "coding" : [{
+        "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "code" : "C14204",
+        "display" : "Epstein-Barr Virus (EBV)"
+      }]
+    },
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "system" : "http://loinc.org",
+        "code" : "LA6577-6",
+        "display" : "Negative"
+      }]
+    },
+    "exclude" : false
+  }]
+}
