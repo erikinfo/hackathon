@@ -109,7 +109,7 @@
   "description" : "TAPISTRY is a Phase II, global, multicenter, open-label, multi-cohort study designed to evaluate the safety and efficacy of targeted therapies or immunotherapy as single agents or in rational, specified combinations in participants with unresectable, locally advanced or metastatic solid tumors determined to harbor specific oncogenic genomic alterations or who are tumor mutational burden (TMB)-high as identified by a validated next-generation sequencing (NGS) assay.",
   "recruitment" : {
     "targetNumber": 770,
-    "eligibility": "Group/TrialInclusionGroupExample" 
+    "eligibility": "EvidenceVariable/430" 
   },
   "location" : [{
     "reference" : "Location/SLK"

@@ -45,7 +45,7 @@ public class SubscriptionTriggerService {
 
     private static final org.slf4j.Logger ourLog = org.slf4j.LoggerFactory.getLogger(SubscriptionTriggerService.class);
 
-    public final IGenericClient client2; //= FhirContext.forR5().newRestfulGenericClient("http://localhost:8888/fhir/");
+    public final IGenericClient client2; 
     public final FhirContext ctx;
 
     public static final String SUBSCRIPTION_TOPIC_TEST_URL = "http://molit.eu/fhir/SubscriptionTopic/clinicaltrials-germany-test6";
@@ -90,7 +90,6 @@ public class SubscriptionTriggerService {
             return (ResearchStudy) response.getEntry().get(0).getResource();
         }
     
-        // If there are no entries, return null
         return null;
     }
 
@@ -212,18 +211,6 @@ public class SubscriptionTriggerService {
         session.setIdleTimeout(-1);
 
         ourLog.info("Connected to WS: {}", session.isOpen());
-
-        //TimeUnit.SECONDS.sleep(15);
-        /*
-        * Create a matching resource
-        */
-        //ResearchStudy rs = new ResearchStudy();
-        //rs.setStatus(Enumerations.PublicationStatus.ACTIVE);
-        //client2.create().resource(rs).execute();
-
-        /*
-        * Ensure that we receive a ping on the websocket
-        */
 
         int ping_count = 0;
         while (true) {

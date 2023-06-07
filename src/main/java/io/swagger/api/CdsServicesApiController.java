@@ -5,13 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.hl7.fhir.instance.model.api.IBaseBundle;
+import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r5.model.Bundle;
 import org.hl7.fhir.r5.model.Patient;
+import org.hl7.fhir.r5.model.ResearchStudy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.StringClientParam;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
+import ca.uhn.fhir.util.BundleUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -71,6 +75,9 @@ public class CdsServicesApiController implements CdsServicesApi {
         this.objectMapper = objectMapper;
         this.request = request;
         this.client = fhirClient;
+
+         ResearchStudy rs = new ResearchStudy();
+         rs.setRecruitment(new ResearchStudy.ResearchStudyRecruitmentComponent().setEligibility(null));
     }
 
 
@@ -202,24 +209,26 @@ public class CdsServicesApiController implements CdsServicesApi {
      * @param searchParameters
      * @return
      */
-    public List<Resource> searchForPatient(List<String> searchParameters) {
+    public List<Patient> searchForPatient(String observationCodes, String conditionCode) {
        
 
         // Build the search criteria
-        String observationCodes = "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C49164,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C114879,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C102869";
-        String conditionCode = "http://snomed.info/sct|443493003";
+        //String observationCodes = "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C49164,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C114879,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C102869";
+        //String conditionCode = "http://snomed.info/sct|443493003";
 
         // Perform the search
-        IBaseBundle response = client.search()
-        .forResource("Patient")
+        Bundle response = client.search()
+        .forResource(Patient.class)
         .where(new StringClientParam("_has").matches().value("Observation:subject:code=" + observationCodes))
         .and(new StringClientParam("_has").matches().value("Condition:subject:code=" + conditionCode))
+        .returnBundle(Bundle.class)
         .execute();
 
-        // Loop over the patients in the response
+        // Extract patients from the bundle
+        List<Patient> resources = BundleUtil.toListOfResourcesOfType(client.getFhirContext(), response, Patient.class);
+
+        return resources;
         
-        
-        return null;
     }
 
     
