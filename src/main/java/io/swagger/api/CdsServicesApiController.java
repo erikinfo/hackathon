@@ -11,7 +11,10 @@ import javax.validation.Valid;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.StringClientParam;
 import io.swagger.annotations.*;
+import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.r5.model.ResearchStudy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,14 +57,17 @@ public class CdsServicesApiController implements CdsServicesApi {
     private final HttpServletRequest request;
 
     private Map<String, Card> storedData = new HashMap<>();
-    
+
+    private final IGenericClient client;
+
     @Autowired
     private CDSServiceRepository cdsServiceRepository;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public CdsServicesApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public CdsServicesApiController(ObjectMapper objectMapper, HttpServletRequest request, IGenericClient client) {
         this.objectMapper = objectMapper;
         this.request = request;
+        this.client = client;
     }
 
 
@@ -239,8 +245,29 @@ public class CdsServicesApiController implements CdsServicesApi {
         }
     }
 
-    
+    /**
+     * Search for a patient on the FHIR server using the given search parameters which are inclusion and exclusion criteria.
+     * @param searchParameters
+     * @return
+     */
+    public List<Resource> searchForPatient(List<String> searchParameters) {
 
-        
+
+        // Build the search criteria
+        String observationCodes = "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C49164,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C114879,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C102869";
+        String conditionCode = "http://snomed.info/sct|443493003";
+
+        // Perform the search
+        IBaseBundle response = client.search()
+                .forResource("Patient")
+                .where(new StringClientParam("_has").matches().value("Observation:subject:code=" + observationCodes))
+                .and(new StringClientParam("_has").matches().value("Condition:subject:code=" + conditionCode))
+                .execute();
+
+        // Loop over the patients in the response
+
+
+        return null;
+    }
 
 }

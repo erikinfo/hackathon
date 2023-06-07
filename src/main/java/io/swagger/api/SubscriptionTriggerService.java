@@ -60,7 +60,6 @@ public class SubscriptionTriggerService {
 
     public static void main(String[] args) {
 
-
         //SubscriptionTriggerService ig = new SubscriptionTriggerService();
     
         try {
