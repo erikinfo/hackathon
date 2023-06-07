@@ -1,11 +1,17 @@
 package io.swagger.api;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
-
+import org.hl7.fhir.r5.model.CodeableConcept;
+import org.hl7.fhir.r5.model.Coding;
+import org.hl7.fhir.r5.model.Period;
 import org.hl7.fhir.r5.model.ResearchStudy;
 
 import ca.uhn.fhir.context.FhirContext;
@@ -18,12 +24,69 @@ import io.swagger.model.FHIRAuthorization.TokenTypeEnum;
 public class CDSHooks {
 
     public static void main(String[] args) {
-        // Test the CDSHooks class
         CDSHooks hooks = new CDSHooks();
         ResearchStudy researchStudy = new ResearchStudy();
+
+        //following lines creates a condition for test purposes. Keep an eye when loading a research study direct.
+        // Create a CodeableConcept representing the condition being studied
+        CodeableConcept condition = new CodeableConcept();
+        // Create a Coding representing the SNOMED code for the condition
+        Coding coding = new Coding();
+        coding.setSystem("http://snomed.info/sct");
+        coding.setCode("363358000"); // fictitious code created for demonstration purposes
+        coding.setDisplay("Solid Tumors with Oncogenic Alterations and High Tumor Mutational Burden");
+        // Add the Coding to the CodeableConcept
+        condition.addCoding(coding);
+        // Create a list of CodeableConcepts and add the condition
+        List<CodeableConcept> conditions = new ArrayList<>();
+        conditions.add(condition);
+        //finished condition
+
+        Period period = new Period();
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            // Set the start date
+            String startDateString = "2023-01-01";
+            Date startDate = dateFormat.parse(startDateString);
+            period.setStart(startDate);
+
+            // Set the end date
+            String endDateString = "2023-09-09 ";
+            Date endDate = dateFormat.parse(endDateString);
+            period.setEnd(endDate);
+
+            researchStudy.setPeriod(period);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        List<CodeableConcept> regions = new ArrayList<>();
+        // Create a CodeableConcept for a specific region
+        CodeableConcept region1 = new CodeableConcept();
+        Coding coding1 = new Coding();
+        coding1.setSystem("http://example.com/geographic-areas");
+        coding1.setCode("US");
+        coding1.setDisplay("United States");
+        region1.addCoding(coding1);
+        regions.add(region1);
+        // Create another CodeableConcept for a different region
+        CodeableConcept region2 = new CodeableConcept();
+        Coding coding2 = new Coding();
+        coding2.setSystem("http://example.com/geographic-areas");
+        coding2.setCode("CA");
+        coding2.setDisplay("Canada");
+        region2.addCoding(coding2);
+        regions.add(region2);
+
         researchStudy.setId("123");
-        researchStudy.setTitle("Test");
-        researchStudy.setName("Hallo");
+        researchStudy.setTitle("Example from CDSHooks: Tumor-Agnostic Precision Immuno-Oncology and Somatic Targeting Rational for You (TAPISTRY) Platform Study");
+        researchStudy.setName("Example-Test-purpose");
+        researchStudy.setCondition(conditions);
+        researchStudy.setRegion(regions);
+        researchStudy.setDescriptionSummary("This study investigates the associations of malignant pancreatic neoplasms in connection with adenocarcinomas.");
+        //researchStudy.setStatus(Enumerations.PublicationStatus.valueOf("active"));//prob. not necessary here, instead: researchStudy.getStatus();
+        //researchStudy.setRecruitment();  //inclusion and exclusion criterias
         hooks.sendRequest(researchStudy);
     }
 
