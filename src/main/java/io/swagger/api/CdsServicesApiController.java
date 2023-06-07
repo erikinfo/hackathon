@@ -187,6 +187,25 @@ public class CdsServicesApiController implements CdsServicesApi {
         }
     }
 
+
+    /**
+     * Search for a patient on the FHIR server using the given search parameters which are inclusion and exclusion criteria.
+     * @param searchParameters
+     * @return
+     */
+    public List<Resource> searchForPatient(List<String> searchParameters) {
+       
+
+        // 
+        String requestURI = "Patient?_format=json&_pretty=true";
+
+        // Perform the GET request to retrieve the patient data
+        //Bundle response = client.search().byUrl(requestURI).returnBundle(Bundle.class).execute();
+
+        
+        return null;
+    }
+
     
 
         

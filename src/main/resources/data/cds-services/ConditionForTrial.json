@@ -1,0 +1,18 @@
+{
+  "resourceType": "Condition",
+  "id": "example",
+  "subject": {
+    "reference": "Patient/example"
+  },
+  "code": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "443493003",
+        "display": "Metastatic malignant melanoma"
+      }
+    ],
+    "text": "Histologically or cytologically confirmed diagnosis of advanced and unresectable or metastatic solid malignancy"
+  }
+}
+
