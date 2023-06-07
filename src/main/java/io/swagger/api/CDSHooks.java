@@ -19,11 +19,13 @@ public class CDSHooks {
 
     public static void main(String[] args) {
         // Test the CDSHooks class
+
         CDSHooks hooks = new CDSHooks();
         ResearchStudy researchStudy = new ResearchStudy();
         researchStudy.setId("123");
         researchStudy.setTitle("Test");
         researchStudy.setName("Hallo");
+        //TODO: here add the setters (researchStudy.setsmth) that are going to be called later in the CdsServicesApiController.
         hooks.sendRequest(researchStudy);
     }
 

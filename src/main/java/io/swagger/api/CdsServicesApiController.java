@@ -9,6 +9,9 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.IParser;
+import org.hl7.fhir.r5.model.ResearchStudy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +80,27 @@ public class CdsServicesApiController implements CdsServicesApi {
         logger.info("CDS Hook: template is triggered");                                                     // 
         logger.info("CDS Hook: request is " + request.toString());
 
-        // Look at presentation and build Bundle 
+        FhirContext ctx = FhirContext.forR5();
+        // Instantiate a new parser
+        IParser parser = ctx.newJsonParser();
+
+        // Parse it
+        ResearchStudy researchStudy = parser.parseResource(ResearchStudy.class, request.getPrefetch().toString());
+        logger.info(researchStudy.toString());//research study to become.
+
+        //ResearchStudy researchStudy = (ResearchStudy) request.getPrefetch();
+
+
+
+        // Look at presentation and build Bundle
+
+        // Request to JSON => In dem JSON Prefetch lesen =>
+
+        //ctx.
+
+        //ResearchStudy
+
+        //  search() => Patient...
 
         System.out.println(request.toString());
 

@@ -9,6 +9,8 @@ import org.hl7.fhir.r4.model.Patient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class ExternalEHRFHIRServerRetrieval {
@@ -18,6 +20,8 @@ public class ExternalEHRFHIRServerRetrieval {
         ExternalEHRFHIRServerRetrieval ehr = new ExternalEHRFHIRServerRetrieval();
         Patient p = ehr.retrievePatientFromServer();
         //Patient p= ehr.getPatientFromFHIR(); same as above
+        //ehr.savePatientAsJson(p); possible to be added
+
     }
 
     public Patient getPatientFromFHIR() {
@@ -65,4 +69,24 @@ public class ExternalEHRFHIRServerRetrieval {
         return patient;
 
     }
+
+    /**
+     * possible to be added
+     *
+    private void savePatientAsJson(Patient patient) {
+        if (patient != null) {
+            String filePath = "resources/patient.json";
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                objectMapper.writeValue(new File(filePath), patient);
+                System.out.println("JSON file successfully created .");
+            } catch (IOException e) {
+                System.out.println("Error when creating JSON: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Patient cannot be saved, then none was retrieved.");
+        }
+    }
+     */
+
 }

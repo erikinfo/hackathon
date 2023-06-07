@@ -1,0 +1,9 @@
+- First: start der CDSServiceApplication, so then the cds service can be started.
+- Second: Go to the CDSHooks class and run. After changes always do the first step as start point.
+-
+
+
+- TODO: Return the index.html (cds card) from UI to its normal, so it can works properly according to the new current version.
+- TODO: In CDS hooks -> in FHIR RESOURCES from the R5 version look under Researchstudy resources (it also has inclusion and exclusion criterias).See more direct in the class.
+- TODO: DO the CDS cards, first in the CDShooks class and then in the CdsServicesApiController.
+- TODO: After all TODOs do the ppt
