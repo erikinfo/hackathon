@@ -1,6 +1,7 @@
 package io.swagger;
 
 import io.swagger.api.FHIRService;
+import io.swagger.api.SubscriptionTriggerService;
 import io.swagger.configuration.LocalDateConverter;
 import io.swagger.configuration.LocalDateTimeConverter;
 
@@ -25,9 +26,15 @@ public class CdsServiceTemplateApplication {
     @Autowired
     private FHIRService fhirService;
 
+    @Autowired
+    private SubscriptionTriggerService subscriptionTriggerService;
+
     @Bean
     public ApplicationRunner applicationRunner() {
         return args -> {
+            // This Is the ID we have for the Subscription:
+            subscriptionTriggerService.makeTestOnWebSocket("408");
+            
             //fhirService.intermediaryHandler();
             //fhirService.pushFhirResources("/home/erik/Downloads/test-ig");
         };

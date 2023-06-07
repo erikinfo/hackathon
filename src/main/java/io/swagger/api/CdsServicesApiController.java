@@ -9,6 +9,9 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.hl7.fhir.instance.model.api.IBaseBundle;
+import org.hl7.fhir.r5.model.Bundle;
+import org.hl7.fhir.r5.model.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.StringClientParam;
+import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -54,14 +60,17 @@ public class CdsServicesApiController implements CdsServicesApi {
     private final HttpServletRequest request;
 
     private Map<String, Card> storedData = new HashMap<>();
+
+    private final IGenericClient client;
     
     @Autowired
     private CDSServiceRepository cdsServiceRepository;
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public CdsServicesApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    @Autowired
+    public CdsServicesApiController(ObjectMapper objectMapper, HttpServletRequest request, IGenericClient fhirClient) {
         this.objectMapper = objectMapper;
         this.request = request;
+        this.client = fhirClient;
     }
 
 
@@ -196,12 +205,19 @@ public class CdsServicesApiController implements CdsServicesApi {
     public List<Resource> searchForPatient(List<String> searchParameters) {
        
 
-        // 
-        String requestURI = "Patient?_format=json&_pretty=true";
+        // Build the search criteria
+        String observationCodes = "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C49164,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C114879,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C102869";
+        String conditionCode = "http://snomed.info/sct|443493003";
 
-        // Perform the GET request to retrieve the patient data
-        //Bundle response = client.search().byUrl(requestURI).returnBundle(Bundle.class).execute();
+        // Perform the search
+        IBaseBundle response = client.search()
+        .forResource("Patient")
+        .where(new StringClientParam("_has").matches().value("Observation:subject:code=" + observationCodes))
+        .and(new StringClientParam("_has").matches().value("Condition:subject:code=" + conditionCode))
+        .execute();
 
+        // Loop over the patients in the response
+        
         
         return null;
     }

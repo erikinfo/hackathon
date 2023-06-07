@@ -1,0 +1,1 @@
+localhost:8888/fhir/Patient?_has:Observation:subject:code=http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurulocalhost:8888/fhir/Observations.owl|C49164,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C114879,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C102869&_has:Condition:subject:code=http://snomed.info/sct|443493003
