@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.StringClientParam;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
@@ -65,16 +67,18 @@ public class CdsServicesApiController implements CdsServicesApi {
 
     private Map<String, Card> storedData = new HashMap<>();
 
+    private final FhirContext ctx;
     private final IGenericClient client;
     
     @Autowired
     private CDSServiceRepository cdsServiceRepository;
 
     @Autowired
-    public CdsServicesApiController(ObjectMapper objectMapper, HttpServletRequest request, IGenericClient fhirClient) {
+    public CdsServicesApiController(ObjectMapper objectMapper, HttpServletRequest request, IGenericClient fhirClient, FhirContext ctx) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.client = fhirClient;
+        this.ctx = ctx;
 
          ResearchStudy rs = new ResearchStudy();
          rs.setRecruitment(new ResearchStudy.ResearchStudyRecruitmentComponent().setEligibility(null));
@@ -89,17 +93,35 @@ public class CdsServicesApiController implements CdsServicesApi {
     @RequestMapping(value = "/cds-services/trials", produces = {"application/json"}, consumes = {"application/json"}, method = RequestMethod.POST) // @RequestHeader(name = "Authorization") String token,
     public ResponseEntity<Card> cdsTestService(@ApiParam(value = "Body of CDS service request", required = true) @Valid @RequestBody CDSRequest request, @RequestHeader Map<String, String> headers) {
         
-        
-        logger.info("CDS Hook: template is triggered");                                                     // 
+        logger.info("CDS Hook: template is triggered");
         logger.info("CDS Hook: request is " + request.toString());
 
-        // Look at presentation and build Bundle 
+        // Instantiate a new parser
+        IParser parser = ctx.newJsonParser();
+
+        // Parse it
+        ResearchStudy researchStudy = parser.parseResource(ResearchStudy.class, request.getPrefetch().toString());
+        logger.info(researchStudy.toString());//research study to become.
+
+        //ResearchStudy researchStudy = (ResearchStudy) request.getPrefetch();
+
+
+
+        // Look at presentation and build Bundle
+
+        // Request to JSON => In dem JSON Prefetch lesen =>
+
+        //ctx.
+
+        //ResearchStudy
+
+        //  search() => Patient...
 
         System.out.println(request.toString());
 
         Card c = new Card();
-        c.setSummary("Example Card");
-        c.setDetail("This is an example card");
+        c.setSummary(researchStudy.getTitle());//"Example: Info Card"
+        c.setDetail("Delivers an info card containing the most important information and a list of eligible patients");
         c.setIndicator(IndicatorEnum.INFO);
 
         Source s = new Source();
@@ -109,17 +131,49 @@ public class CdsServicesApiController implements CdsServicesApi {
 
         ArrayList<Link> links = new ArrayList<Link>();
         Link link = new Link();
+        s.setLabel("Link for the Research Study:");
         link.setLabel("Adjuvant Aspirin Treatment in PIK3CA Mutated Colon Cancer Patients. A Randomized, Double-blinded, Placebo-controlled, Phase III Trial");
         link.setUrl("https://clinicaltrials.gov/ct2/show/NCT02467582");
         link.setType("Clinical Trial");
-        
+        //Alternative for smartlink app card
+        Link smartlink = new Link();
+        s.setLabel("Link for the App:");
+        smartlink.setLabel("HealthGPT APP");
+        smartlink.setUrl("https://www.healthgptapp.com/");//TODO: change link with the one were the interface of the app can be shown (prototype)
+
         links.add(0, link);
+        links.add(1,smartlink);
+
         c.setLinks(links);
         c.setSelectionBehavior(SelectionBehaviorEnum.AT_MOST_ONE);
 
+
+
+        //If the UI used in this project could show other cards as well, it would be able to show this smart app link card.
+        //Smartlink app card : provides link for the health gpt Appc(interactive way of providing information about a study)
+        //for patient and doctor.
+        /*
+        Card smartlinkapp = new Card();
+        smartlinkapp.setDetail("Link for the HealthGPT APP");
+        Link smartlink = new Link();
+        smartlink.setLabel("HealthGPT APP");
+        link.setUrl("https://www.healthgptapp.com/");
+        */
+
+
         Suggestion suggestions = new Suggestion();
-        suggestions.setLabel("##### Title: Radio-Immunotherapy");
+        //suggestions.setLabel("##### Title: Radio-Immunotherapy Before Cystectomy in Locally Advanced Urothelial Carcinoma of the Bladder\r\n* Status: **Active**, \r\n* Intervention: **Folfiri**,\r\n* Study Sites: \r\n   * Klinikum rechts der Isar der Technischen Universit\u00E4t M\u00FCnchen, \r\n   * Universit\u00E4tsklinikum W\u00FCrzburg,\r\n",);
+        suggestions.setLabel("##### Title: " + researchStudy.getTitle() +"\r\n* Condition: "+ researchStudy.getCondition()
+                + ", \r\n* Date range: **" + researchStudy.getPeriod().toString() +"**,\r\n* Region: **"+researchStudy.getRegion()
+                +"**,\\r\\n* Brief Summary: \\r\\n" + researchStudy.getDescriptionSummary() + "* \\r\\n\",); " );
         suggestions.setUuid(new UUID(1, 0));
+        //researchStudy.getRegion();//where is it being realised
+        //researchStudy.getRecruitment().getEligibility();//criterias
+        //researchStudy.getProtocol();//steps to follow
+        //researchStudy.getDescriptionSummary();//brief description of the study
+        //researchStudy.getCondition();//condition being study
+        //researchStudy.getPeriod();//of the study availability
+
 
         Suggestion suggestion2 = new Suggestion();
         suggestion2.setLabel("##### Title: Cancer TNM");
@@ -144,6 +198,8 @@ public class CdsServicesApiController implements CdsServicesApi {
         action2.setResource(resource);
         actions.add(action2);
 
+        //TODO: here another action for the criterias
+        Action action3 = new Action();
         suggestions.setActions(actions);
         suggestion2.setActions(actions);
         suggestionsList.add(suggestion2);
