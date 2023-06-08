@@ -177,7 +177,9 @@ public class CdsServicesApiController implements CdsServicesApi {
                 "  **End: " + researchStudy.getPeriod().getEnd() + "**,\r\n" +
                 "* Region:" + "\r\n" + "**" + researchStudy.getRegion().get(1).toString() + "** \r\n" +
                 researchStudy.getRegion().get(2).getText() + "**,\r\n" +
-                "* Brief Summary: \r\n" + researchStudy.getDescriptionSummary() + "\r\n" );
+                "* Brief Summary: \r\n" + researchStudy.getDescriptionSummary() + "\r\n" + "Patient selected: \r\n" +
+                    "Name: " + searchForPatient(observationCodes, researchStudy.getCondition().toString()));
+
         suggestions.setUuid(new UUID(1, 0));
         //researchStudy.getRegion();//where is it being realised
         //researchStudy.getRecruitment().getEligibility();//criterias
