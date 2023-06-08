@@ -142,13 +142,16 @@ public class CdsServicesApiController implements CdsServicesApi {
 
         Suggestion suggestions = new Suggestion();
         //suggestions.setLabel("##### Title: Radio-Immunotherapy Before Cystectomy in Locally Advanced Urothelial Carcinoma of the Bladder\r\n* Status: **Active**, \r\n* Intervention: **Folfiri**,\r\n* Study Sites: \r\n   * Klinikum rechts der Isar der Technischen Universit\u00E4t M\u00FCnchen, \r\n   * Universit\u00E4tsklinikum W\u00FCrzburg,\r\n",);
+
         suggestions.setLabel("##### Title: " + researchStudy.getTitle() + "\r\n" +
                 "* Condition: "+ researchStudy.getCondition() + ",\r\n" +
                 "* Date range: \r\n" +
-                "  **Start: " + researchStudy.getPeriod().getStart() + "** - \r\n" +
+                "  **Start: " + researchStudy.getPeriod().getStart() + "**  \r\n" +
                 "  **End: " + researchStudy.getPeriod().getEnd() + "**,\r\n" +
-                "* Region: \r\n **" + researchStudy.getRegion().toString() + "**,\r\n" +
+                "* Region:" + "\r\n" + "**" + researchStudy.getRegion().get(1).toString() + "** \r\n" +
+                    researchStudy.getRegion().get(2).getText() + "**,\r\n" +
                 "* Brief Summary: \r\n" + researchStudy.getDescriptionSummary() + "\r\n" );
+
         suggestions.setUuid(new UUID(1, 0));
         //researchStudy.getRegion();//where is it being realised
         //researchStudy.getRecruitment().getEligibility();//criterias
@@ -159,8 +162,9 @@ public class CdsServicesApiController implements CdsServicesApi {
 
 
         Suggestion suggestion2 = new Suggestion();
-        suggestion2.setLabel("##### Patient selected \r\n" +
-                "Name: " + );
+        suggestion2.setLabel("##### Patient selected \r\n"
+            //    "Name: " + searchForPatient(observationCodes, researchStudy.getCondition().toString()));
+            + smartlink.getLabel() + ": " + smartlink.getUrl());
         suggestion2.setUuid(new UUID(3, 0));
 
 
@@ -177,7 +181,7 @@ public class CdsServicesApiController implements CdsServicesApi {
 
         //prob. should not even been shown
         Action action2 = new Action();
-        action2.setDescription("Based on the condition and subtype, a Task can be created to evaluate the patient's eligibility for enrollment in the clinical trial 2.");
+        action2.setDescription("Based on the condition and subtype, a Task can be created to evaluate the patient's eligibility for enrollment in the clinical trial.");
         action2.setType(TypeEnum.DELETE);
         Resource resource2 = new Resource();
         resource2.setResourceType("Task");
@@ -187,8 +191,8 @@ public class CdsServicesApiController implements CdsServicesApi {
         //TODO: here another action for the criterias
         Action action3 = new Action();
         suggestions.setActions(actions);
-        //suggestion2.setActions(actions);
-        // suggestionsList.add(suggestion2);
+        suggestion2.setActions(actions);
+        suggestionsList.add(suggestion2);
         suggestionsList.add(suggestions);
         c.setSuggestions(suggestionsList);
         c.setSource(s);
