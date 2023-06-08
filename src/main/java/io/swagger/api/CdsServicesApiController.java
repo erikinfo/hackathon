@@ -148,8 +148,7 @@ public class CdsServicesApiController implements CdsServicesApi {
                 "* Date range: \r\n" +
                 "  **Start: " + researchStudy.getPeriod().getStart() + "**  \r\n" +
                 "  **End: " + researchStudy.getPeriod().getEnd() + "**,\r\n" +
-                "* Region:" + "\r\n" + "**" + researchStudy.getRegion().get(1).toString() + "** \r\n" +
-                    researchStudy.getRegion().get(2).getText() + "**,\r\n" +
+                "* Region:" + "\r\n" + "**" + researchStudy.getRegion() + "**,\r\n" +
                 "* Brief Summary: \r\n" + researchStudy.getDescriptionSummary() + "\r\n" );
 
         suggestions.setUuid(new UUID(1, 0));
@@ -162,10 +161,9 @@ public class CdsServicesApiController implements CdsServicesApi {
 
 
         Suggestion suggestion2 = new Suggestion();
-        suggestion2.setLabel("##### Patient selected \r\n"
+        //suggestion2.setLabel("##### Patient selected \r\n" +
             //    "Name: " + searchForPatient(observationCodes, researchStudy.getCondition().toString()));
-            + smartlink.getLabel() + ": " + smartlink.getUrl());
-        suggestion2.setUuid(new UUID(3, 0));
+        //suggestion2.setUuid(new UUID(3, 0));
 
 
         ArrayList<Suggestion> suggestionsList = new ArrayList<Suggestion>();
@@ -190,8 +188,8 @@ public class CdsServicesApiController implements CdsServicesApi {
 
         //TODO: here another action for the criterias
         Action action3 = new Action();
-        suggestions.setActions(actions);
-        suggestion2.setActions(actions);
+        //suggestions.setActions(actions);
+        //suggestion2.setActions(actions);
         suggestionsList.add(suggestion2);
         suggestionsList.add(suggestions);
         c.setSuggestions(suggestionsList);
