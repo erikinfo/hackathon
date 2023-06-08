@@ -163,7 +163,9 @@ public class CdsServicesApiController implements CdsServicesApi {
 
 
         Suggestion suggestion2 = new Suggestion();
-        suggestion2.setLabel("##### Title: Cancer TNM");
+        suggestion2.setLabel("##### Patient selected \r\n"
+                //    "Name: " + searchForPatient(observationCodes, researchStudy.getCondition().toString()));
+                + smartlink.getLabel() + ": " + smartlink.getUrl());
         suggestion2.setUuid(new UUID(3, 0));
 
         ArrayList<Suggestion> suggestionsList = new ArrayList<Suggestion>();
