@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
 import io.swagger.annotations.*;
+import org.hl7.fhir.r5.model.Patient;
 import org.hl7.fhir.r5.model.ResearchStudy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,26 +84,21 @@ public class CdsServicesApiController implements CdsServicesApi {
 
         // Parse it
         ResearchStudy researchStudy = parser.parseResource(ResearchStudy.class, request.getPrefetch().toString());
-        logger.info(researchStudy.toString());//research study to become.
+        logger.info(researchStudy.toString());
 
-        //ResearchStudy researchStudy = (ResearchStudy) request.getPrefetch();
+        // PSEUDO CODE: if any of: then OR if all then AND //TODO: not clear enough
 
+        // Lets pretend we get these values since HAPI 6.6 currently does not support the eligibility criteria
+        String observationCodes = "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C49164,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C114879,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl|C102869";
+        String conditionCode = "http://snomed.info/sct|443493003";
 
-
-        // Look at presentation and build Bundle
-
-        // Request to JSON => In dem JSON Prefetch lesen =>
-
-        //ctx.
-
-        //ResearchStudy
-
-        //  search() => Patient...
+        //List<Patient> patients = searchForPatient(observationCodes, conditionCode);
 
         System.out.println(request.toString());
 
+
         Card c = new Card();
-        c.setSummary(researchStudy.getTitle());//"Example: Info Card"
+        c.setSummary("Example: Info Card");
         c.setDetail("Delivers an info card containing the most important information and a list of eligible patients");
         c.setIndicator(IndicatorEnum.INFO);
 
@@ -117,11 +113,12 @@ public class CdsServicesApiController implements CdsServicesApi {
         link.setLabel("Adjuvant Aspirin Treatment in PIK3CA Mutated Colon Cancer Patients. A Randomized, Double-blinded, Placebo-controlled, Phase III Trial");
         link.setUrl("https://clinicaltrials.gov/ct2/show/NCT02467582");
         link.setType("Clinical Trial");
+
         //Alternative for smartlink app card
         Link smartlink = new Link();
-        s.setLabel("Link for the App:");
         smartlink.setLabel("HealthGPT APP");
         smartlink.setUrl("https://www.healthgptapp.com/");//TODO: change link with the one were the interface of the app can be shown (prototype)
+        smartlink.setType("smart");
 
         links.add(0, link);
         links.add(1,smartlink);
@@ -145,7 +142,13 @@ public class CdsServicesApiController implements CdsServicesApi {
 
         Suggestion suggestions = new Suggestion();
         //suggestions.setLabel("##### Title: Radio-Immunotherapy Before Cystectomy in Locally Advanced Urothelial Carcinoma of the Bladder\r\n* Status: **Active**, \r\n* Intervention: **Folfiri**,\r\n* Study Sites: \r\n   * Klinikum rechts der Isar der Technischen Universit\u00E4t M\u00FCnchen, \r\n   * Universit\u00E4tsklinikum W\u00FCrzburg,\r\n",);
-        suggestions.setLabel("##### Title: " + researchStudy.getTitle() +"\r\n* Condition: "+ researchStudy.getCondition() + ", \r\n* Date range: **" + researchStudy.getPeriod() +"**,\r\n* Region: **"+researchStudy.getRegion()+"**,\\r\\n* Brief Summary: \\r\\n" + researchStudy.getDescriptionSummary() + "* \\r\\n\",); " );
+        suggestions.setLabel("##### Title: " + researchStudy.getTitle() + "\r\n" +
+                "* Condition: "+ researchStudy.getCondition() + ",\r\n" +
+                "* Date range: \r\n" +
+                "  **Start: " + researchStudy.getPeriod().getStart() + "** - \r\n" +
+                "  **End: " + researchStudy.getPeriod().getEnd() + "**,\r\n" +
+                "* Region: \r\n **" + researchStudy.getRegion().toString() + "**,\r\n" +
+                "* Brief Summary: \r\n" + researchStudy.getDescriptionSummary() + "\r\n" );
         suggestions.setUuid(new UUID(1, 0));
         //researchStudy.getRegion();//where is it being realised
         //researchStudy.getRecruitment().getEligibility();//criterias
@@ -156,22 +159,25 @@ public class CdsServicesApiController implements CdsServicesApi {
 
 
         Suggestion suggestion2 = new Suggestion();
-        suggestion2.setLabel("##### Title: Cancer TNM");
+        suggestion2.setLabel("##### Patient selected \r\n" +
+                "Name: " + );
         suggestion2.setUuid(new UUID(3, 0));
+
 
         ArrayList<Suggestion> suggestionsList = new ArrayList<Suggestion>();
 
         List<Action> actions = new ArrayList<Action>();
         Action action = new Action();
-        action.setDescription("Based on condition and subtype, the patient could be enrolled to a clinical trial");
+        action.setDescription("Based on the condition and subtype, a Task can be created to evaluate the patient's eligibility for enrollment in the clinical trial.");
         action.setType(TypeEnum.CREATE);
         Resource resource = new Resource();
         resource.setResourceType("Patient");
         action.setResource(resource);
         actions.add(action);
 
+        //prob. should not even been shown
         Action action2 = new Action();
-        action2.setDescription("Based on condition and subtype, the patient could be enrolled to a clinical trial 2");
+        action2.setDescription("Based on the condition and subtype, a Task can be created to evaluate the patient's eligibility for enrollment in the clinical trial 2.");
         action2.setType(TypeEnum.DELETE);
         Resource resource2 = new Resource();
         resource2.setResourceType("Task");
@@ -181,8 +187,8 @@ public class CdsServicesApiController implements CdsServicesApi {
         //TODO: here another action for the criterias
         Action action3 = new Action();
         suggestions.setActions(actions);
-        suggestion2.setActions(actions);
-        suggestionsList.add(suggestion2);
+        //suggestion2.setActions(actions);
+        // suggestionsList.add(suggestion2);
         suggestionsList.add(suggestions);
         c.setSuggestions(suggestionsList);
         c.setSource(s);
