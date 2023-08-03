@@ -1,4 +1,6 @@
-# spring-cds-service-template
+# CDS Service using Websockets in early versions of FHIR R5
+
+During the FHIR Dev Days 2023 we compiled an experiment using FHIR R5 and CDS Hooks. The middle layer is a websocket. 
 
 ## Getting started:
 
